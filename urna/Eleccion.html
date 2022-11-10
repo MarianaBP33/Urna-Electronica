@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+		h1{
+			text-align: center;
+		}
+    .container{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center; 
+      justify-content: center;
+    }
+    .center {
+      display:grid;
+      justify-content: center;
+      align-items: center; 
+      vertical-align: middle;
+      margin: 50px;
+    }
+    .b2{
+      width: 80px;
+      height: 30px;
+      font-size: 10px;
+    }
+    button{
+      width: 300px;
+      height: 100px;
+      font-size: 20px;
+      margin-left: 50px;
+    }
+    .b3{
+      display: flex;
+      justify-content: center;
+      align-items:center;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+</style>
+<body>
+    <div>
+        <h1 style="size: 20px "> 
+            URNA ELECTRÓNICA
+        </h1>
+    </div>
+    <h2 style="text-align: center; margin-top: 80px;">Resultados</h2>
+    <div class="container">
+      <div id="tablas" class= "center"> 
+        <h3>Presidente Municipal</h3>
+      </div>
+      <div id="tablas2" class= "center"> 
+        <h3>Gobernador</h3>
+      </div>
+      <div id="tablas3" class= "center"> 
+        <h3>Presidente de la República</h3>
+      </div>
+    </div>
+  
+		
+		<p style="text-align: center;"><input onclick="ir()" type="button" value="Finalizar" name="enter"></p>
+	</form>
+
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+  const baseurl = 'http://localhost:4000';
+  const selectCandidatos = document.getElementById("boletas");
+  var table = document.createElement('table');
+  var table2 = document.createElement('table');
+  var table3 = document.createElement('table');
+
+  const getResultados1 = async() => {
+    const { data } = await axios.get(baseurl + '/resultados');
+    var checkBoxId = 1
+    var tr = document.createElement('tr');
+    var th = document.createElement('th'); //column
+    var text = document.createTextNode('Nombre'); //cell
+    th.appendChild(text);
+    tr.appendChild(th);
+    var th2 = document.createElement('th'); //column
+    var text2 = document.createTextNode('Votos'); //cell
+    th2.appendChild(text2);
+    tr.appendChild(th2);
+    table.appendChild(tr);
+
+    data.forEach(function(item) {
+      var tr = document.createElement('tr'); 
+      var td1 = document.createElement('td');
+      var td2 = document.createElement('td');
+      var text1 = document.createTextNode(item.candidato_nombre);
+      var text2 = document.createTextNode(item.can);
+
+      td1.appendChild(text1);
+      td2.appendChild(text2);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      table.appendChild(tr);
+    });
+    tablas.appendChild(table);
+  }
+  
+  let municipio = document.createElement('select');
+  tablas.appendChild(municipio)  
+  const getMunicipios = async() => {
+    const { data } = await axios.get(baseurl + '/municipios');
+    data.forEach(function(item) {
+        let o = document.createElement('option');
+        o.text = item.municipio_nombre;
+        o.value = item.municipio_id;
+        municipio.appendChild(o);
+    });
+
+  }
+  getMunicipios ()
+
+  const getResultados2 = async() => {
+    const { data } = await axios.get(baseurl + '/resultados2');
+    var checkBoxId = 1
+    var tr = document.createElement('tr');
+    var th = document.createElement('th'); //column
+    var text = document.createTextNode('Nombre'); //cell
+    th.appendChild(text);
+    tr.appendChild(th);
+    var th2 = document.createElement('th'); //column
+    var text2 = document.createTextNode('Votos'); //cell
+    th2.appendChild(text2);
+    tr.appendChild(th2);
+    table2.appendChild(tr);
+
+    data.forEach(function(item) {
+      var tr = document.createElement('tr'); 
+      var td1 = document.createElement('td');
+      var td2 = document.createElement('td');
+      var text1 = document.createTextNode(item.candidato_nombre);
+      var text2 = document.createTextNode(item.can);
+
+      td1.appendChild(text1);
+      td2.appendChild(text2);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      table2.appendChild(tr);
+    });
+    tablas2.appendChild(table2);
+  }
+  
+
+  const getResultados3 = async() => {
+    const { data } = await axios.get(baseurl + '/resultados3');
+    var checkBoxId = 1
+    var tr = document.createElement('tr');
+    var th = document.createElement('th'); //column
+    var text = document.createTextNode('Nombre'); //cell
+    th.appendChild(text);
+    tr.appendChild(th);
+    var th2 = document.createElement('th'); //column
+    var text2 = document.createTextNode('Votos'); //cell
+    th2.appendChild(text2);
+    tr.appendChild(th2);
+    table3.appendChild(tr);
+
+    data.forEach(function(item) {
+      var tr = document.createElement('tr'); 
+      var td1 = document.createElement('td');
+      var td2 = document.createElement('td');
+      var text1 = document.createTextNode(item.candidato_nombre);
+      var text2 = document.createTextNode(item.can);
+
+      td1.appendChild(text1);
+      td2.appendChild(text2);
+      tr.appendChild(td1);
+      tr.appendChild(td2);
+      table3.appendChild(tr);
+    });
+    tablas3.appendChild(table3);
+  }
+  getResultados1()
+  getResultados2()
+  getResultados3()
+
+  console.time('loop');
+  var a = new Array(10000000);
+  for (var n = 0; n < a.length; n++) {
+      a[n] = n * n;
+  }
+  
+  console.timeEnd('loop');
+
+  function ir(){
+    confirm("¿Esta seguro que desea salir?");
+    window.location='opciones1.html'
+  }
+  function back(){
+    window.location = "opciones1.html";
+  }			  
+</script>

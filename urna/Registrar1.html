@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .b2{
+            width: 80px;
+            height: 30px;
+            font-size: 10px;
+            margin-left: 50px;
+            }
+
+    </style>
+    <script>
+        const sendBtn = document.getElementById("enviar")
+        const inputV = document.getElementById("nombreElecciones")
+
+        const baseurl = 'http://localhost:4000/'
+        const postInfo = async() => {
+            const res = await fetch(baseurl +'eleccion',{
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    name: document.getElementById("nombreElecciones").value,
+                })
+            })
+            window.location='Registrar2.html';
+        }
+</script>
+</head>
+<body>
+    <div>
+        <h1 style="size: 20px "> 
+            URNA ELECTRÓNICA
+        </h1>
+    </div>
+    <button class="b2" onclick="location.href='opciones1.html'" > BACK</button>
+    <form name="form" action="Entrar">
+    <h1 style="text-align: center; margin-top: 100px;">Registrar Datos de la Elección</h1>
+    <h3 style="text-align: center;  margin-top: 40px;">Nombre de la elección</h3><br>
+    <h3 style="text-align: center;" ><input id="nombreElecciones" type="name" placeholder="Ej. Elecciones Municipio 2050" style="width:200px;" required></h3>
+    <div class="center">
+        <input id="enviar" type="button" onclick="postInfo()" value=">"></input>
+    </div>
+    </form>
+</body>
+</html> 
+

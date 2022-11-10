@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+		h1{
+			text-align: center;
+		}
+		.center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.b2{
+		width: 80px;
+		height: 30px;
+		font-size: 10px;
+		margin-left: 50px;
+		}
+	</style>
+	<script type="text/javascript">
+		function ir(){
+			contra = 1234
+			if(document.form.psw.value == contra){
+				window.location = "Resultados.html";
+				console.log("Contra")
+			}else{
+				alert("Contraseña Incorrecta");
+			}
+		}
+	</script>
+</head>
+<body>
+	<div>
+		<h1 style="size: 20px "> 
+			Urna Electrónica
+		</h1>
+	</div>
+	<button class="b2" onclick="location.href='opciones2.html'" > BACK</button>
+
+	<h2 style="text-align: center; margin-top: 100px;">CERRAR</h2><br>
+	
+	<form name="form" action="Entrar">
+		<p style="text-align: center;"><input type="password" placeholder="Enter Password" name="psw" required></p>
+		<br>
+		<p style="text-align: center;"><input onclick="ir()" type="button" value="Entrar" name="enter"></p>
+	</form>
+    
+</body>
+</html>
+

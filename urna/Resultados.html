@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>
+		h1{
+			text-align: center;
+		}
+		.center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.b2{
+			width: 80px;
+			height: 30px;
+			font-size: 10px;
+		}
+		button{
+			width: 300px;
+			height: 100px;
+			font-size: 20px;
+			margin-left: 50px;
+		}
+		.b3{				
+			display: flex;
+			justify-content: center;
+			align-items:center;
+		}
+	</style>
+</html>
+<body>
+	<div>
+		<h1 style="size: 20px "> 
+			URNA ELECTRÓNICA
+		</h1>
+	</div>
+	<button class="b2" onclick="location.href='opciones1.html'" > BACK</button>
+	<h2 style="text-align: center; margin-top: 100px;">Resultados</h2>
+	<div>
+		<h3 style="text-align: center;  margin-top: 40px;">Nombre de la elección:</h3><br>
+	</div>    
+	<div class= "center">
+		<select id="menu">
+			<option value="Seleccione el nombre de la eleccion: "></option>        
+		</select><br>   
+		<input type="button" onclick="postInfo()" value="Ir"> </form>
+	</div>    
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+	const baseurl = 'http://localhost:4000';
+
+	const getEleccion = async() => {
+		const { data } = await axios.get(baseurl + '/eleccion');
+		data.forEach(function(item) {
+				let o = document.createElement('option');
+				o.text = item.eleccion_nombre;
+				o.value = item.eleccion_id;
+				menu.appendChild(o);
+		});
+	}
+	const postInfo = async() => {
+		var selectEleccion = document.getElementById('menu');
+		var eleccionValue = selectEleccion.options[selectEleccion.selectedIndex].text;
+		console.log(document.getElementById("menu").value)
+		const res = await axios.post(baseurl +'/abrir',{
+				name: eleccionValue,
+		});
+		window.location='mostrar_resultados.html';
+    }
+	getEleccion();
+	function back(){
+			window.location = "opciones1.html";
+	}			
+</script>

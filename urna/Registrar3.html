@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .center2{
+            display:flex; 
+            flex-direction:column; 
+            justify-content: center; 
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <h1 style="size: 20px "> 
+            URNA ELECTRÓNICA
+        </h1>
+    </div>
+    <div class="center">
+        <form name="form" >
+        <h1 style="text-align: center; margin-top: 50px;">Registrar Datos de la Elección</h1>
+        <h2 style="text-align: center;  margin-top: 40px;">Gobernador</h2><br>
+        </form>
+    </div>
+    <div class="center2">
+        <h3> Nombre y Apellido del candidato: </h3><input id="nombreCandidato" type="name" placeholder="Ej. Maria Perez" required>
+        <h3> Partido: </h3>
+        <select id="partido">
+            <option value="Elije el partido"></option>        
+        </select><br>
+        <input type="button" value="Enviar" onclick="createCandidato()">
+    </div>
+    
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const sendBtn = document.getElementById("enviar");
+    const selectPartidos = document.getElementById("partido");
+
+    const baseurl = 'http://localhost:4000';
+
+    const getPartidos = async() => {
+        const { data } = await axios.get(baseurl + '/partidos');
+            data.forEach(function(item) {
+                let p = document.createElement('option');
+                p.text = item.partido_nombre;
+                p.value = item.partido_id;
+                partido.appendChild(p);
+            });  
+    
+    }
+    const createCandidato = async() => {
+        var selectPartido = document.getElementById('partido');
+        var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
+        console.log(document.getElementById("partido").value)
+        
+
+        const res = await axios.post(baseurl + '/candidato2', {
+            nombreCandidato: document.getElementById('nombreCandidato').value,
+            partidoId: partidoValue,
+            eleccionId: 2,
+            puestoId: 2
+        });
+        let text;
+        if (confirm("¿Quiere Registrar otro Candidato a Gobernador?") == true) {
+            text = "You pressed OK!";
+            document.getElementById("partido").value = null
+            document.getElementById('nombreCandidato').value = null
+        } else {
+            window.location='Registrar4.html'
+        }
+    }
+    
+    getPartidos();
+
+</script>
+</html> 
+

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .container{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .center{  
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            vertical-align: middle;
+            border: 3px outset black;
+            margin-left: 20px;
+            margin-top: 20px;
+            width: 400px;
+            height: 100px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .buttonConf{
+            display: flex;
+            font-size: 20px;
+            align-items: right;
+            justify-content: right;
+            margin-top: 20px;
+        }
+        .checkbox1{
+            width: 20px; 
+            height: 20px;
+            margin-left: 20px;
+        }
+        .logo{
+            width: 90px; 
+            height: 90px;
+            margin-left: 10px;
+        }
+        .text{
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 style="size: 20px "> 
+            URNA ELECTRÓNICA
+        </h1>
+    </div>
+    <h2 style="text-align: left; margin-top: 80px; margin-left: 30px;">Presidente de la República</h2>
+    <div id='boletas' class='container'></div>
+
+    <div class="buttonConf">
+        <input style="margin-left: 50px; font-size: 30px;"  type="button"id= "button1" onclick="postVote()" disabled value='ENVIAR'> </input>
+    </div>
+    
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const baseurl = 'http://localhost:4000';
+    const selectCandidatos = document.getElementById("boletas");
+
+    const getBoleta = async() => {
+        const { data } = await axios.get(baseurl + '/boletaPresRep');
+        var checkBoxId = 0
+        data.forEach(function(item) {
+            let newDiv = document.createElement('div');
+            let nombre = document.createElement('p');
+            var checkbox = document.createElement('input');
+            var logo = document.createElement('img');
+            var span = document.createElement('span');
+            span.style ='margin-left:20px'
+
+            checkbox.type = "checkbox";
+            checkbox.classList.add('checkbox1');
+            checkbox.id = checkBoxId;
+            checkbox.onclick = checkChange;
+            checkBoxId = checkBoxId+1;
+            checkbox.value = item.candidato_nombre
+
+            partidoId= item.partido_id;
+            puesotId = item.puesto_id;
+            let text = document.createTextNode(item.candidato_nombre);
+
+            newDiv.classList.add('center');
+            logo.classList.add('logo')
+
+            if(partidoId == 1){
+                logo.src='pan.png'
+            }else if(partidoId == 2){
+                logo.src='pri.png'
+            }else if(partidoId == 3){
+                logo.src='prd.png'
+            }else if(partidoId == 4){
+                logo.src='partidoVerde.png'
+            }else if(partidoId == 5){
+                logo.src='pt.png'
+            }else if(partidoId == 6){
+                logo.src='movimientoCiudadano.png'
+            }else if(partidoId == 7){
+                logo.src='morena.png'
+            }
+            
+            if (puesotId == 3){
+                boletas.appendChild(newDiv);
+                newDiv.appendChild(logo);
+                newDiv.appendChild(span)
+                span.appendChild(text);
+                newDiv.appendChild(checkbox);
+            }
+        });
+        let nullDiv = document.createElement('div');
+        let text = document.createTextNode('Anular Voto');
+        var checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.value='Voto Nulo'
+        checkbox.onclick = checkChange;
+        checkbox.id = checkBoxId;  
+        var span = document.createElement('span');
+
+        span.style ='margin-left:20px'
+        nullDiv.classList.add('center');
+        boletas.appendChild(nullDiv);
+        nullDiv.appendChild(span);
+        nullDiv.appendChild(checkbox);
+        span.appendChild(text);
+        checkbox.classList.add('checkbox1');
+
+        let nullDiv2 = document.createElement('div');
+        let text2 = document.createElement("input");
+        let checkbox2 = document.createElement("input");
+        
+        text2.id = "texto";
+        
+        let independiente = document.createTextNode('Ingresa el nombre del candidato independiente: ');
+        checkbox2.type = "checkbox";
+        checkbox2.onclick = checkChange;
+        checkbox2.id = checkBoxId;      
+        var span2 = document.createElement('span');
+
+        checkbox2.classList.add('checkbox1');
+        span2.style ='margin-left:20px'
+        nullDiv2.classList.add('center');
+        text2.addEventListener("blur", function() {
+            checkbox2.value = document.getElementById("texto").value;
+        });
+        
+        boletas.appendChild(nullDiv2);
+        nullDiv2.appendChild(span2);
+        
+        span2.appendChild(independiente);
+        span2.appendChild(text2);
+        span2.appendChild(checkbox2);
+    }
+
+    getBoleta()
+    const postVote = async() => {
+            const res = await fetch(baseurl +'/boleta',{
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    nombreCandidato: document.querySelector('.checkbox1:checked').value,
+                    municipioId: null,
+                    puestoId: 3
+                })
+            })
+            confirm("¡Voto Registrado con Éxito!")
+            window.location='votoRegistrado.html';
+    }
+    
+    let b = false;
+    function checkChange(){
+        let checkboxA = document.querySelectorAll('.checkbox1')
+        b = !b
+        if(b){
+            for(let i = 0 ; i< checkboxA.length; i++){
+                if(checkboxA[i].checked === false){
+                    checkboxA[i].disabled = 'true';
+                    document.getElementById('button1').disabled = false
+                }  
+            }
+        }else{
+            for(let i = 0 ; i< checkboxA.length; i++){
+                checkboxA[i].removeAttribute('disabled');
+                document.getElementById('button1').disabled = true
+            }
+            
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+<head>
+    <style>
+        h1{
+            text-align: center;
+        }
+        b2{
+            font-size: 20px;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <div>
+        <h1 style="size: 20px "> 
+            URNA ELECTRÓNICA
+        </h1>
+    </div>
+    <h2 style="text-align: center; margin-top: 100px;">Abrir</h2><br>
+    <p style="text-align: center;">Elije la elección que quiere abrir y el municipio en el que se encuentra:</p>
+    <div class= "center">
+        <select id="elecciones">
+            <option value="Seleccione el nombre de la eleccion: "></option>        
+        </select><br>  
+        <select id="municipio">
+            <option value="Seleccione el nombre de la eleccion: "></option>        
+        </select><br>        
+        <input type= "button" onclick="postInfo()" value="Enviar" class="b2" > 
+    </div>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const sendBtn = document.getElementById("enviar");
+    const selectElecciones = document.getElementById("elecciones");
+    const baseurl = 'http://localhost:4000';
+
+    const getEleccion = async() => {
+        const { data } = await axios.get(baseurl + '/eleccion');
+        data.forEach(function(item) {
+            let o = document.createElement('option');
+            o.text = item.eleccion_nombre;
+            o.value = item.eleccion_id;
+            elecciones.appendChild(o);
+        });
+    }
+    const getMunicipios = async() => {
+        const { data } = await axios.get(baseurl + '/municipios');
+        data.forEach(function(item) {
+            let o = document.createElement('option');
+            o.text = item.municipio_nombre;
+            o.value = item.municipio_id;
+            municipio.appendChild(o);
+        });
+
+    }
+    getMunicipios()
+    const postInfo = async() => {
+        var selectEleccion = document.getElementById('elecciones');
+        var eleccionValue = selectEleccion.options[selectEleccion.selectedIndex].text;
+        console.log(document.getElementById("elecciones").value)
+        const res = await axios.post(baseurl +'/abrir',{
+            name: eleccionValue,
+            municipio: document.getElementById('municipio').value
+        });
+        window.location='abrir.html';
+    }
+ 
+    
+
+    getEleccion()
+
+</script>
+</html>
