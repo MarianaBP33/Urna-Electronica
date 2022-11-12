@@ -58,8 +58,6 @@
         <h3>Presidente de la República</h3>
       </div>
     </div>
-  
-		
 		<p style="text-align: center;"><input onclick="ir()" type="button" value="Finalizar" name="enter"></p>
 	</form>
 
@@ -67,17 +65,16 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
   const baseurl = 'http://localhost:4000';
-  const selectCandidatos = document.getElementById("boletas");
+  //const selectCandidatos = document.getElementById("boletas");
   var table = document.createElement('table');
   var table2 = document.createElement('table');
   var table3 = document.createElement('table');
 
   const getResultados1 = async() => {
     const { data } = await axios.get(baseurl + '/resultados');
-    var checkBoxId = 1
     var tr = document.createElement('tr');
     var th = document.createElement('th'); //column
-    var text = document.createTextNode('Nombre'); //cell
+    var text = document.createTextNode('Candidato'); //cell
     th.appendChild(text);
     tr.appendChild(th);
     var th2 = document.createElement('th'); //column
@@ -114,14 +111,13 @@
     });
 
   }
-  getMunicipios ()
+  getMunicipios()
 
   const getResultados2 = async() => {
     const { data } = await axios.get(baseurl + '/resultados2');
-    var checkBoxId = 1
     var tr = document.createElement('tr');
     var th = document.createElement('th'); //column
-    var text = document.createTextNode('Nombre'); //cell
+    var text = document.createTextNode('Candidato'); //cell
     th.appendChild(text);
     tr.appendChild(th);
     var th2 = document.createElement('th'); //column
@@ -149,10 +145,9 @@
 
   const getResultados3 = async() => {
     const { data } = await axios.get(baseurl + '/resultados3');
-    var checkBoxId = 1
     var tr = document.createElement('tr');
     var th = document.createElement('th'); //column
-    var text = document.createTextNode('Nombre'); //cell
+    var text = document.createTextNode('Candidato'); //cell
     th.appendChild(text);
     tr.appendChild(th);
     var th2 = document.createElement('th'); //column

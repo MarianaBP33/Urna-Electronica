@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electronica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <style>
 		h1{
 			text-align: center;
@@ -24,18 +29,30 @@
 	</script>
 </head>
 <body>
-	<div>
-		<h1 style="size: 20px "> 
-			Urna Electrónica
-		</h1>
+	<nav class="navbar navbar-dark bg-dark shadow small mb-3">
+		<div class="container-fluid nav justify-content-center">
+			<img src="ceenl2.png" alt="Girl in a jacket" width="150px" height="30px">
+			<a class="navbar-brand" href="#" >
+				<span class=" margin-left=100px" style="color: black;">-----</span>
+				<span class="brand-gradient margin-left=100px">URNA ELECTRÓNICA</span>
+			</a>
+		</div>
+	</nav>
+
+	<div class="row justify-content-center">
+		<div class="col-md-5 mt-5 justify-content-center">
+			<div class="card shadow-sm borders-0 mb-3 mt-5">
+				<div class="card-header text-bg-dark text-center">CLAVE</div>
+				<form name="form" role="entrar" class="d-flex justify-content-center">
+					<div class="hstack gap-3 me-3 mt-3">
+						<input class="form-control form-control-sm me-auto mb-3 mt-3" name="psw" type="password" placeholder="Ingresa la clave..." aria-label="Ingresa la clave..." required>
+						<input class="btn btn-sm btn-success" onclick="ir()" type="sumbit" value="ENTRAR">
+					</div>
+					<div class="vr"></div>
+				</form>
+			</div>
+		</div>
 	</div>
-	<h2 style="text-align: center; margin-top: 100px;">CLAVE</h2><br>
-	
-	<form name="form" action="Entrar">
-		<p style="text-align: center;"><input type="password" placeholder="Enter Password" name="psw" required></p>
-		<br>
-		<p style="text-align: center;"><input onclick="ir()" type="button" value="Entrar" name="enter"></p>
-	</form>
     
 </body>
 </html>
