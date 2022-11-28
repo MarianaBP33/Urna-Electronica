@@ -73,9 +73,9 @@ const getEleccion = async(req, res) => {
 
 const getBoleta = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const {municipio_id} = state.municipio
+    //const {municipio_id} = state.municipio
     console.log(eleccion_id)
-    console.log(municipio_id)
+    //console.log(municipio_id)
     const response = await pool.query('SELECT candidato_id, municipio_id, candidato_nombre, partido_id, puesto_id FROM schema2.candidato WHERE puesto_id = $1 AND eleccion_id = $2',[1,eleccion_id])
     res.send(response.rows);
     console.log(response.rows)

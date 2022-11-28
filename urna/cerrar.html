@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electrónicarar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <style>
 		h1{
 			text-align: center;
@@ -10,41 +15,56 @@
 			justify-content: center;
 			align-items: center;
 		}
-		.b2{
-		width: 80px;
-		height: 30px;
-		font-size: 10px;
-		margin-left: 50px;
-		}
 	</style>
-	<script type="text/javascript">
-		function ir(){
-			contra = 1234
-			if(document.form.psw.value == contra){
-				window.location = "Resultados.html";
-				console.log("Contra")
-			}else{
-				alert("Contraseña Incorrecta");
-			}
-		}
-	</script>
 </head>
-<body>
-	<div>
-		<h1 style="size: 20px "> 
-			Urna Electrónica
-		</h1>
-	</div>
-	<button class="b2" onclick="location.href='opciones2.html'" > BACK</button>
+<script type="text/javascript">
+	function ir(){
+		contra = 1234
+		console.log("hola");
+		if(document.form.psw.value == contra){
+			window.location = "Resultados.html";
+			console.log("Contra")
+		}else{
+			alert("Contraseña Incorrecta");
+		}
+	}
+</script>
 
-	<h2 style="text-align: center; margin-top: 100px;">CERRAR</h2><br>
-	
-	<form name="form" action="Entrar">
-		<p style="text-align: center;"><input type="password" placeholder="Enter Password" name="psw" required></p>
-		<br>
-		<p style="text-align: center;"><input onclick="ir()" type="button" value="Entrar" name="enter"></p>
-	</form>
-    
+<body>
+	<!--Nav-->
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+    <div class="container-fluid nav justify-content-center">
+        <a class="navbar-brand" href="#" >
+            <span >URNA ELECTRÓNICA</span>
+        </a>
+    </div>
+</nav>
+
+<div class="row justify-content-center">
+	<div class="col-md-6 text-center ">
+		<div class="home-header-image-holder ">
+			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png"  alt="CEENL">
+		</div>
+	</div>
+</div>
+<div class="row justify-content-center mt-5">
+	<div class="col-md-5 vertical-align-middle">
+		<div class="card shadow-sm borders-0 mb-3">
+			<div class="card-header text-bg-warning text-center">CERRAR</div>
+			<form name="form" role="entrar" class="d-flex justify-content-center">
+				<div class="hstack gap-3 me-3">
+					<input class="form-control form-control-sm me-auto mb-3 mt-3" name="psw" type="password" placeholder="Ingresa la clave..." aria-label="Ingresa la clave..." required>
+					<input class="btn btn-sm btn-secondary" onclick="ir()" type="button" value="Entrar">
+					
+				</div>
+				<div class="vr"></div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
 </body>
+
 </html>
 

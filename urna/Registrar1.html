@@ -1,57 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        h1{
-            text-align: center;
-        }
-        .center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .b2{
-            width: 80px;
-            height: 30px;
-            font-size: 10px;
-            margin-left: 50px;
-            }
-
-    </style>
-    <script>
-        const sendBtn = document.getElementById("enviar")
-        const inputV = document.getElementById("nombreElecciones")
-
-        const baseurl = 'http://localhost:4000/'
-        const postInfo = async() => {
-            const res = await fetch(baseurl +'eleccion',{
-                method: 'POST',
-                headers: {
-                    "Content-Type": 'application/json'
-                },
-                body: JSON.stringify({
-                    name: document.getElementById("nombreElecciones").value,
-                })
-            })
-            window.location='Registrar2.html';
-        }
-</script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urna Electronica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+<style>
+    h1{
+        text-align: center;
+    }
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
 </head>
 <body>
-    <div>
-        <h1 style="size: 20px "> 
-            URNA ELECTRÓNICA
-        </h1>
+    <!--Nav-->
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+        <div class="container-fluid nav justify-content-center">
+            <a class="navbar-brand" href="opciones1.html" >
+                <span >URNA ELECTRÓNICA</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6 text-center ">
+
+            <div class="home-header-image-holder ">
+                <img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png" alt="CEENL">
+
+            </div>
+        </div>
     </div>
-    <button class="b2" onclick="location.href='opciones1.html'" > BACK</button>
+</head>
+<body>
     <form name="form" action="Entrar">
-    <h1 style="text-align: center; margin-top: 100px;">Registrar Datos de la Elección</h1>
-    <h3 style="text-align: center;  margin-top: 40px;">Nombre de la elección</h3><br>
-    <h3 style="text-align: center;" ><input id="nombreElecciones" type="name" placeholder="Ej. Elecciones Municipio 2050" style="width:200px;" required></h3>
-    <div class="center">
-        <input id="enviar" type="button" onclick="postInfo()" value=">"></input>
-    </div>
+        <h2 class="text-center mt-5">Registrar datos de la elección</h2>
+        <div>
+            <h3 class="fs-5 text-center fw-bold">Nombre de la elección:</h3><br>
+        </div>
+        <div class="center">
+            <button class="btn btn-sm btn-secondary" onclick="location.href='opciones1.html'" style="margin-right:20px ;"> 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+              </button>
+            <h3 class="text-center" ><input id="nombreElecciones" type="name" placeholder="Ej. Elecciones Municipio 2050" style="font-size: 20px; width: 300px;" required></h3>
+            <input class= "btn btn-warning" id="enviar" type="button" onclick="postInfo()" value="Enviar" style="margin-left:20px ;"></input>
+        </div>
     </form>
 </body>
-</html> 
+<script>
+    const sendBtn = document.getElementById("enviar")
+    const inputV = document.getElementById("nombreElecciones")
+
+    const baseurl = 'http://localhost:4000/'
+    const postInfo = async() => {
+    const res = await fetch(baseurl +'eleccion',{
+        method: 'POST',
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify({
+        name: document.getElementById("nombreElecciones").value,
+        })
+        })
+        window.location='Registrar2.html';
+    }
+</script>
+</html>
 

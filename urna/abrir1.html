@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-   
 <head>
-    <style>
-        h1{
-            text-align: center;
-        }
-        b2{
-            font-size: 20px;
-        }
-        .center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-    </style>
-    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electrónica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <style>
+		h1{
+			text-align: center;
+		}
+		.center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	</style>
 </head>
 <body>
-    <div>
-        <h1 style="size: 20px "> 
-            URNA ELECTRÓNICA
-        </h1>
+	<!--Nav-->
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+    <div class="container-fluid nav justify-content-center">
+        <a class="navbar-brand" href="#" >
+            <span >URNA ELECTRÓNICA</span>
+        </a>
     </div>
-    <h2 style="text-align: center; margin-top: 100px;">Abrir</h2><br>
+</nav>
+
+<div class="row justify-content-center">
+	<div class="col-md-6 text-center ">
+		<div class="home-header-image-holder ">
+			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png".png"  alt="CEENL">
+		</div>
+	</div>
+</div>
+<div class="row justify-content-center mt-5">
+	<div class="col-md-5 vertical-align-middle">
+		<div class="card shadow-sm borders-0 mb-3">
+			<div class="card-header text-bg-warning text-center">ABRIR</div>
     <p style="text-align: center;">Elije la elección que quiere abrir y el municipio en el que se encuentra:</p>
     <div class= "center">
         <select id="elecciones">
             <option value="Seleccione el nombre de la eleccion: "></option>        
-        </select><br>  
-        <select id="municipio">
-            <option value="Seleccione el nombre de la eleccion: "></option>        
-        </select><br>        
-        <input type= "button" onclick="postInfo()" value="Enviar" class="b2" > 
+        </select><br>         
+        <input type= "button" onclick="postInfo()" value="Enviar" class="btn btn-sm btn-secondary m-3">
+        <button class="btn btn-sm btn-secondary" onclick="location.href='opciones1.html'" > 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+        </button>
     </div>
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -51,24 +66,12 @@
             elecciones.appendChild(o);
         });
     }
-    const getMunicipios = async() => {
-        const { data } = await axios.get(baseurl + '/municipios');
-        data.forEach(function(item) {
-            let o = document.createElement('option');
-            o.text = item.municipio_nombre;
-            o.value = item.municipio_id;
-            municipio.appendChild(o);
-        });
-
-    }
-    getMunicipios()
     const postInfo = async() => {
         var selectEleccion = document.getElementById('elecciones');
         var eleccionValue = selectEleccion.options[selectEleccion.selectedIndex].text;
         console.log(document.getElementById("elecciones").value)
         const res = await axios.post(baseurl +'/abrir',{
             name: eleccionValue,
-            municipio: document.getElementById('municipio').value
         });
         window.location='abrir.html';
     }

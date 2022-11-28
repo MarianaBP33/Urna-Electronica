@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electrónica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <style>
         h1{
             text-align: center;
@@ -8,6 +13,7 @@
         .container{
             display: flex;
             flex-wrap: wrap;
+            margin-left: 0px;
         }
         .center{  
             display: flex;
@@ -17,7 +23,7 @@
             border: 3px outset black;
             margin-left: 20px;
             margin-top: 20px;
-            width: 400px;
+            width: 500px;
             height: 100px;
             font-size: 20px;
             font-weight: bold;
@@ -45,16 +51,18 @@
     </style>
 </head>
 <body>
-    <div>
-        <h1 style="size: 20px "> 
-            URNA ELECTRÓNICA
-        </h1>
-    </div>
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+        <div class="container-fluid nav justify-content-center">
+            <a class="navbar-brand" href="#" >
+                <span >URNA ELECTRÓNICA</span>
+            </a>
+        </div>
+    </nav>
     <h2 style="text-align: left; margin-top: 80px; margin-left: 30px;">Gobernador</h2>
     <div id='boletas' class='container'></div>
 
     <div class="buttonConf">
-        <input style="margin-left: 50px; font-size: 30px;"  type="button"id= "button1" onclick="postVote()" disabled value='ENVIAR'> </input>
+        <input style="margin-left: 50px; margin-right: 30px; font-size: 30px;"  type="button"id= "button1" onclick="postVote()" disabled value='ENVIAR'> </input>
     </div>
     
 </body>

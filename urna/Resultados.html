@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electrónica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <style>
 		h1{
 			text-align: center;
 		}
@@ -10,40 +15,41 @@
 			justify-content: center;
 			align-items: center;
 		}
-		.b2{
-			width: 80px;
-			height: 30px;
-			font-size: 10px;
-		}
-		button{
-			width: 300px;
-			height: 100px;
-			font-size: 20px;
-			margin-left: 50px;
-		}
-		.b3{				
-			display: flex;
-			justify-content: center;
-			align-items:center;
-		}
 	</style>
-</html>
+</head>
 <body>
-	<div>
-		<h1 style="size: 20px "> 
-			URNA ELECTRÓNICA
-		</h1>
+	<!--Nav-->
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+    <div class="container-fluid nav justify-content-center">
+        <a class="navbar-brand" href="#" >
+            <span >URNA ELECTRÓNICA</span>
+        </a>
+    </div>
+</nav>
+
+<div class="row justify-content-center">
+	<div class="col-md-6 text-center ">
+		<div class="home-header-image-holder ">
+			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png"  alt="CEENL">
+		</div>
 	</div>
-	<button class="b2" onclick="location.href='opciones1.html'" > BACK</button>
-	<h2 style="text-align: center; margin-top: 100px;">Resultados</h2>
+</div>
+<body>
+	<h2 class="text-center mt-5">Resultados</h2>
 	<div>
-		<h3 style="text-align: center;  margin-top: 40px;">Nombre de la elección:</h3><br>
+		<h3 class="fs-5 text-center fw-bold">Nombre de la elección:</h3><br>
 	</div>    
+	
 	<div class= "center">
+		<button class="btn btn-sm btn-secondary" onclick="location.href='opciones1.html'" style="margin-right:20px ;"> 
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+			  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+			</svg>
+		  </button>
 		<select id="menu">
 			<option value="Seleccione el nombre de la eleccion: "></option>        
 		</select><br>   
-		<input type="button" onclick="postInfo()" value="Ir"> </form>
+		<input class= "btn btn-warning" type="button" onclick="postInfo()" width="20px" height="20px" value="Ir" style="margin-left: 20px;"> </form>
 	</div>    
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

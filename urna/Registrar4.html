@@ -1,30 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        h1{
-            text-align: center;
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electrónica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <style>
+		h1{
+			text-align: center;
+            font-size: 30px;
+		}
+        h2 {
+            font-size: 20px;
         }
-        .center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+		.center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
         .center2{
             display:flex; 
             flex-direction:column; 
             justify-content: center; 
             align-items: center;
         }
-
-    </style>
+	</style>
 </head>
 <body>
-    <div>
-        <h1 style="size: 20px "> 
-            URNA ELECTRÓNICA
-        </h1>
+	<!--Nav-->
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+    <div class="container-fluid nav justify-content-center">
+        <a class="navbar-brand" href="#" >
+            <span >URNA ELECTRÓNICA</span>
+        </a>
     </div>
+</nav>
+
+<div class="row justify-content-center">
+	<div class="col-md-6 text-center ">
+		<div class="home-header-image-holder ">
+			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png"  alt="CEENL">
+		</div>
+	</div>
+</div>
+</head>
+<body>
     <div class="center">
         <form name="form" >
         <h1 style="text-align: center; margin-top: 50px;">Registrar Datos de la Elección</h1>
@@ -32,14 +53,28 @@
         </form>
     </div>
     <div class="center2">
-        <h3> Nombre y Apellido del candidato: </h3><input id="nombreCandidato" type="name" placeholder="Ej. Maria Perez" required>
-        <h3> Partido: </h3>
-        <select id="partido">
-            <option value="Elije el partido"></option>        
-        </select><br>
-        <input type="button" value="Enviar" onclick="createCandidato()">
+        <div class="input-group input-group-sm">
+            <span class="input-group-text text-bg-warning">Nombre y Apelido</span>
+            <input id='nombreCandidato' type="text" aria-label="First name" class="form-control">
+            <input id='apellidoCandidato' type="text" aria-label="Last name" class="form-control">
+        </div>
+        <div class="input-group input-group-sm mb-3 mt-3">
+            <label class="input-group-text text-bg-warning" for="inputGroupSelect01">Partido</label>
+            <select class="form-select" id="partido">
+              <option selected>Elegir...</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-sm btn-secondary" onclick="location.href='Registrar3.html'" > 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                </svg>
+            </button>
+            <input type="button" class="btn btn-sm btn-secondary"value="Enviar" onclick="createCandidato()">
+        </div>
     </div>
     
+</body>
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
@@ -65,7 +100,7 @@
         
 
         const res = await axios.post(baseurl + '/candidato2', {
-            nombreCandidato: document.getElementById('nombreCandidato').value,
+            nombreCandidato: document.getElementById('nombreCandidato').value +' '+document.getElementById('apellidoCandidato').value,
             partidoId: partidoValue,
             eleccionId: 2,
             puestoId: 3

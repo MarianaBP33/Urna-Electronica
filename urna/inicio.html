@@ -1,78 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-   
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electrónica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <style>
-    h1{
-      text-align: center;
-    }
-    
-    .center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-      /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      padding-top: 100px; /* Location of the box */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-    
-    /* Modal Content */
-    .modal-content {
-      background-color: #fefefe;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-    }
-    
-    /* The Close Button */
-    .close {
-      color: #aaaaaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .b2{
-      width: 80px;
-      height: 30px;
-      font-size: 10px;
-      margin-left: 50px;
-    }
-  </style>
-
+		h1{
+			text-align: center;
+		}
+		.center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	</style>
 </head>
 <body>
-    <div>
-      <h1 style="size: 20px "> 
-        URNA ELECTRÓNICA
-      </h1>
+	<!--Nav-->
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+    <div class="container-fluid nav justify-content-center">
+        <a class="navbar-brand" href="#" >
+            <span >URNA ELECTRÓNICA</span>
+        </a>
     </div>
-    <button class="b2" onclick="location.href='opciones1.html'" > BACK</button>
-    <h2 style="text-align: center; margin-top: 100px;">Inicio</h2><br>
-    <div class="center">
-      <form name="form" action="Entrar">
-        <h3 style="text-align: center;" ><input type="password" placeholder="Enter Password" name="psw" required></h3>
-          <input onclick="ir()" type="button" id="myBtn" value="Entrar"></input>
-      </form>
-    </div>
+</nav>
+
+<div class="row justify-content-center">
+	<div class="col-md-6 text-center ">
+		<div class="home-header-image-holder ">
+			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png"  alt="CEENL">
+		</div>
+	</div>
+</div>
+<div class="row justify-content-center mt-5">
+	<div class="col-md-5 vertical-align-middle">
+		<div class="card shadow-sm borders-0 mb-3">
+			<div class="card-header text-bg-warning text-center">INICIO</div>
+			<form name="form" role="entrar" class="d-flex justify-content-center">
+				<div class="hstack gap-3 me-3">
+					<input class="form-control form-control-sm me-auto mb-3 mt-3" name="psw" type="password" placeholder="Ingresa la clave..." aria-label="Ingresa la clave..." required>
+					<input class="btn btn-sm btn-secondary" onclick="ir()" type="button" value="Entrar">
+					<button class="btn btn-sm btn-secondary" onclick="location.href='opciones1.html'" > 
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+          </button>
+				</div>
+				<div class="vr"></div>
+			</form>
+		</div>
+	</div>
+</div>
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -86,39 +66,35 @@
       </div>
     
     </div>
-    
-    <script>
-    // Get the modal
-    var modal = document.getElementById("myModal");
-    
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-    
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    document.getElementById("current_date").innerHTML = Date();
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
-      window.location="abrir1.html";
-    }
-
-    function ir(){
-      contra = 1234
-      if(document.form.psw.value == contra){
-        console.log("Contra")
-        modal.style.display = "block";
-      }else{
-        alert("Contraseña Incorrecta");
-      }
-    }
-
-    
-    </script>
-    
-
+  
 </body>
+<script>
+  // Get the modal
+  var modal = document.getElementById("myModal");
+  
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+  
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  
+  document.getElementById("current_date").innerHTML = Date();
+  
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "block";
+    window.location="abrir1.html";
+  }
+
+  function ir(){
+    contra = 1234
+    if(document.form.psw.value == contra){
+      console.log("Contra")
+      modal.style.display = "block";
+    }else{
+      alert("Contraseña Incorrecta");
+    }
+  }
+</script>
 </html>
 

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electrónica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <style>
 		h1{
 			text-align: center;
@@ -38,14 +43,25 @@
     table, th, td {
       border: 1px solid black;
       border-collapse: collapse;
+      word-spacing: 5px;      
+      padding: 5px;
+      text-align: center;
     }
+    th{
+      background-color: #ffc40c;
+    }
+    tr:nth-child(even){background-color: #f2f2f2}
+
+    
 </style>
 <body>
-    <div>
-        <h1 style="size: 20px "> 
-            URNA ELECTRÓNICA
-        </h1>
+  <nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+    <div class="container-fluid nav justify-content-center">
+        <a class="navbar-brand" href="#" >
+            <span >URNA ELECTRÓNICA</span>
+        </a>
     </div>
+    </nav>
     <h2 style="text-align: center; margin-top: 80px;">Resultados</h2>
     <div class="container">
       <div id="tablas" class= "center"> 
@@ -58,7 +74,7 @@
         <h3>Presidente de la República</h3>
       </div>
     </div>
-		<p style="text-align: center;"><input onclick="ir()" type="button" value="Finalizar" name="enter"></p>
+		<p style="text-align: center;"><input class="btn btn-sm btn-secondary" onclick="ir()" type="button" value="Finalizar" name="enter"></p>
 	</form>
 
 </body>
@@ -69,6 +85,7 @@
   var table = document.createElement('table');
   var table2 = document.createElement('table');
   var table3 = document.createElement('table');
+  table2.classList.add("table");
 
   const getResultados1 = async() => {
     const { data } = await axios.get(baseurl + '/resultados');
@@ -98,20 +115,6 @@
     });
     tablas.appendChild(table);
   }
-  
-  let municipio = document.createElement('select');
-  tablas.appendChild(municipio)  
-  const getMunicipios = async() => {
-    const { data } = await axios.get(baseurl + '/municipios');
-    data.forEach(function(item) {
-        let o = document.createElement('option');
-        o.text = item.municipio_nombre;
-        o.value = item.municipio_id;
-        municipio.appendChild(o);
-    });
-
-  }
-  getMunicipios()
 
   const getResultados2 = async() => {
     const { data } = await axios.get(baseurl + '/resultados2');

@@ -6,6 +6,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(express.static('urna'))
 
+app.use(express.static('./urna', {index: 'clave.html'}))
+
 
 //routes
 app.use(require('./routes/index'));
