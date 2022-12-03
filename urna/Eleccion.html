@@ -7,6 +7,10 @@
     <title>Urna Electrónica</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <style>
+    .logo{
+      width: 50px; 
+      height: 50px;
+    }
 		h1{
 			text-align: center;
 		}
@@ -50,6 +54,10 @@
     th{
       background-color: #ffc40c;
     }
+    table{
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+    }
     tr:nth-child(even){background-color: #f2f2f2}
 
     
@@ -85,11 +93,14 @@
   var table = document.createElement('table');
   var table2 = document.createElement('table');
   var table3 = document.createElement('table');
-  table2.classList.add("table");
 
   const getResultados1 = async() => {
     const { data } = await axios.get(baseurl + '/resultados');
     var tr = document.createElement('tr');
+    var th3 = document.createElement('th'); //column
+    var text3 = document.createTextNode('Partido'); //cell
+    th3.appendChild(text3);
+    tr.appendChild(th3);
     var th = document.createElement('th'); //column
     var text = document.createTextNode('Candidato'); //cell
     th.appendChild(text);
@@ -104,14 +115,42 @@
       var tr = document.createElement('tr'); 
       var td1 = document.createElement('td');
       var td2 = document.createElement('td');
+      var td3 = document.createElement('td');
+      var logo = document.createElement('img');
       var text1 = document.createTextNode(item.candidato_nombre);
       var text2 = document.createTextNode(item.can);
 
+      td3.appendChild(logo);
       td1.appendChild(text1);
       td2.appendChild(text2);
+      tr.appendChild(td3);
       tr.appendChild(td1);
       tr.appendChild(td2);
+      
       table.appendChild(tr);
+      partidoId= item.partido_id;
+      nulo = item.candidato_nombre;
+      logo.classList.add('logo')
+      if(partidoId == 1){
+          logo.src='pan.png'
+      }else if(partidoId == 2){
+          logo.src='pri.png'
+      }else if(partidoId == 3){
+          logo.src='prd.png'
+      }else if(partidoId == 4){
+          logo.src='partidoVerde.png'
+      }else if(partidoId == 5){
+          logo.src='pt.png'
+      }else if(partidoId == 6){
+          logo.src='movimientoCiudadano.png'
+      }else if(partidoId == 7){
+          logo.src='morena.png'
+      }else if(nulo == "Voto Nulo"){
+        logo.src='null.png'
+      }else{
+        logo.src='independiente.png'
+      }
+
     });
     tablas.appendChild(table);
   }
@@ -119,6 +158,10 @@
   const getResultados2 = async() => {
     const { data } = await axios.get(baseurl + '/resultados2');
     var tr = document.createElement('tr');
+    var th3 = document.createElement('th'); //column
+    var text3 = document.createTextNode('Partido'); //cell
+    th3.appendChild(text3);
+    tr.appendChild(th3);
     var th = document.createElement('th'); //column
     var text = document.createTextNode('Candidato'); //cell
     th.appendChild(text);
@@ -133,14 +176,41 @@
       var tr = document.createElement('tr'); 
       var td1 = document.createElement('td');
       var td2 = document.createElement('td');
+      var td3 = document.createElement('td');
+      var logo = document.createElement('img');
       var text1 = document.createTextNode(item.candidato_nombre);
       var text2 = document.createTextNode(item.can);
 
+      td3.appendChild(logo);
       td1.appendChild(text1);
       td2.appendChild(text2);
+      tr.appendChild(td3);
       tr.appendChild(td1);
       tr.appendChild(td2);
       table2.appendChild(tr);
+
+      partidoId= item.partido_id;
+      nulo = item.candidato_nombre;
+      logo.classList.add('logo')
+      if(partidoId == 1){
+          logo.src='pan.png'
+      }else if(partidoId == 2){
+          logo.src='pri.png'
+      }else if(partidoId == 3){
+          logo.src='prd.png'
+      }else if(partidoId == 4){
+          logo.src='partidoVerde.png'
+      }else if(partidoId == 5){
+          logo.src='pt.png'
+      }else if(partidoId == 6){
+          logo.src='movimientoCiudadano.png'
+      }else if(partidoId == 7){
+          logo.src='morena.png'
+      }else if(nulo == "Voto Nulo"){
+        logo.src='null.png'
+      }else{
+        logo.src='independiente.png'
+      }
     });
     tablas2.appendChild(table2);
   }
@@ -149,6 +219,10 @@
   const getResultados3 = async() => {
     const { data } = await axios.get(baseurl + '/resultados3');
     var tr = document.createElement('tr');
+    var th3 = document.createElement('th'); //column
+    var text3 = document.createTextNode('Partido'); //cell
+    th3.appendChild(text3);
+    tr.appendChild(th3);
     var th = document.createElement('th'); //column
     var text = document.createTextNode('Candidato'); //cell
     th.appendChild(text);
@@ -163,13 +237,42 @@
       var tr = document.createElement('tr'); 
       var td1 = document.createElement('td');
       var td2 = document.createElement('td');
+      var td3 = document.createElement('td');
+      var logo = document.createElement('img');
       var text1 = document.createTextNode(item.candidato_nombre);
       var text2 = document.createTextNode(item.can);
 
+      partidoId= item.partido_id;
+      nulo = item.candidato_nombre;
+      console.log(partidoId)
+      console.log(nulo)
+      logo.classList.add('logo')
+      if(partidoId == 1){
+        logo.src='pan.png'
+      }else if(partidoId == 2){          
+        logo.src='pri.png'
+      }else if(partidoId == 3){
+        logo.src='prd.png'
+      }else if(partidoId == 4){
+        logo.src='partidoVerde.png'
+      }else if(partidoId == 5){
+        logo.src='pt.png'
+      }else if(partidoId == 6){
+        logo.src='movimientoCiudadano.png'
+      }else if(partidoId == 7){
+        logo.src='morena.png'
+      }else if(nulo == "Voto Nulo"){
+        logo.src='null.png'
+      }else{
+        logo.src='independiente.png'
+      }
+      td3.appendChild(logo);
       td1.appendChild(text1);
       td2.appendChild(text2);
+      tr.appendChild(td3);
       tr.appendChild(td1);
       tr.appendChild(td2);
+      
       table3.appendChild(tr);
     });
     tablas3.appendChild(table3);

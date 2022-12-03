@@ -36,9 +36,9 @@
             margin-top: 20px;
         }
         .checkbox1{
-            width: 20px; 
-            height: 20px;
-            margin-left: 20px;
+            width: 50px; 
+            height: 50px;
+            margin-left: 10px;
         }
         .logo{
             width: 90px; 
@@ -47,6 +47,22 @@
         }
         .text{
             margin-left: 20px;
+        }
+        .independiente{
+            font-size: 10px;
+        }
+        .card{
+            width: 400px;
+            height: 200px;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: lightgrey;
+            font-size: large;
+            font-weight: bold;           
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); 
         }
     </style>
 </head>
@@ -59,11 +75,16 @@
         </div>
     </nav>
     <h2 style="text-align: left; margin-top: 80px; margin-left: 30px;">Gobernador</h2>
-    <div id='boletas' class='container'></div>
-
-    <div class="buttonConf">
-        <input style="margin-left: 50px; margin-right: 30px; font-size: 30px;"  type="button"id= "button1" onclick="postVote()" disabled value='ENVIAR'> </input>
+    <div class="row">
+        <div class="col-sm-10">
+            <div id='boletas' class='container'></div>
+        </div>
+        <div class="col-sm-2">
+            <input class="btn btn-lg btn-warning" style="margin-right: 60px; margin-top:200px"  type="button"id= "button1" onclick="postVote()" disabled value='ENVIAR'> </input>
+        </div>
     </div>
+
+    
     
 </body>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -92,7 +113,7 @@
             puesotId = item.puesto_id;
             let text = document.createTextNode(item.candidato_nombre);
 
-            newDiv.classList.add('center');
+            newDiv.classList.add('card');
             logo.classList.add('logo')
 
             if(partidoId == 1){
@@ -129,7 +150,7 @@
         var span = document.createElement('span');
 
         span.style ='margin-left:20px'
-        nullDiv.classList.add('center');
+        nullDiv.classList.add('card');
         boletas.appendChild(nullDiv);
         nullDiv.appendChild(span);
         nullDiv.appendChild(checkbox);
@@ -150,7 +171,7 @@
 
         checkbox2.classList.add('checkbox1');
         span2.style ='margin-left:20px'
-        nullDiv2.classList.add('center');
+        nullDiv2.classList.add('card');
         text2.addEventListener("blur", function() {
             checkbox2.value = document.getElementById("texto").value;
         });
@@ -191,12 +212,16 @@
                 if(checkboxA[i].checked === false){
                     checkboxA[i].disabled = 'true';
                     document.getElementById('button1').disabled = false
+                    document.getElementById('texto').disabled = true
+
                 }  
             }
         }else{
             for(let i = 0 ; i< checkboxA.length; i++){
                 checkboxA[i].removeAttribute('disabled');
                 document.getElementById('button1').disabled = true
+                document.getElementById('texto').disabled = false
+
             }
             
         }

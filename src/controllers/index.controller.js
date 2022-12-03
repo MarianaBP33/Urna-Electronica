@@ -94,30 +94,31 @@ const getBoletaPresRep = async(req, res) => {
     console.log(response.rows)
 }
 const postVote = async(req, res) => {
-    const{nombreCandidato, municipioId, puestoId} = req.body;
+    const{nombreCandidato, municipioId, puestoId, partidoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('INSERT INTO schema2.votos (candidato_nombre, eleccion_id, municipio_id, puesto_id) VALUES ($1, $2, $3, $4)',[nombreCandidato, eleccion_id, municipioId, puestoId]);
+    const response = await pool.query('INSERT INTO schema2.votos (candidato_nombre, eleccion_id, municipio_id, puesto_id, partido_id) VALUES ($1, $2, $3, $4, $5)',[nombreCandidato, eleccion_id, municipioId, puestoId, partidoId]);
     console.log(response.rows)
     res.send('Candidato añadido');
 };
 
 const getVotos = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('SELECT candidato_nombre,COUNT(candidato_nombre) as can FROM schema2.votos WHERE eleccion_id = $1 AND puesto_id = 1 GROUP BY candidato_nombre',[eleccion_id])
+    const response = await pool.query('SELECT b.partido_id, a.eleccion_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM schema2.votos as a left join schema2.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 1 GROUP BY a.candidato_nombre, b.partido_id, a.eleccion_id ',[eleccion_id])
     res.send(response.rows);
     console.log(response.rows)
 }
 
+
 const getVotos2 = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('SELECT candidato_nombre,COUNT(candidato_nombre) as can FROM schema2.votos WHERE eleccion_id = $1 AND puesto_id = 2 GROUP BY candidato_nombre',[eleccion_id])
+    const response = await pool.query('SELECT b.partido_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM schema2.votos as a left join schema2.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 2 GROUP BY a.candidato_nombre, b.partido_id ',[eleccion_id])
     res.send(response.rows);
     console.log(response.rows)
 }
 
 const getVotos3 = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('SELECT candidato_nombre,COUNT(candidato_nombre) as can FROM schema2.votos WHERE eleccion_id = $1 AND puesto_id = 3 GROUP BY candidato_nombre',[eleccion_id])
+    const response = await pool.query('SELECT b.partido_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM schema2.votos as a left join schema2.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 3 GROUP BY a.candidato_nombre, b.partido_id ',[eleccion_id])
     res.send(response.rows);
     console.log(response.rows)
 }
