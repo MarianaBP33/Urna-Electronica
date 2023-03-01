@@ -17,12 +17,6 @@ const getMunicipios = async(req, res) => {
     console.log(response.rows)
 };
 
-const getEstados = async(req, res) =>{
-    const response = await pool.query('SELECT estado_nombre,estado_id FROM urna.estados');
-    res.send(response.rows);
-    console.log(response.rows)
-};
-
 const getPartidos = async(req, res) => {
     const response = await pool.query('SELECT partido_nombre, partido_id FROM urna.partido');
     res.send(response.rows);
@@ -71,7 +65,9 @@ const createEleccion = async(req, res) => {
 
 const getEleccion = async(req, res) => {
     const{name} = req.body;
-    //state.municipio = municipio;
+    const{municipio} = req.body;
+    state.municipio = municipio;
+    console.log(state.municipio)
     const response = await pool.query('SELECT eleccion_id FROM urna.elecciones WHERE eleccion_nombre = $1',[name])
     state.eleccion = response.rows
     res.send('Persona añadida');
