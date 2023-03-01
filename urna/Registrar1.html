@@ -32,46 +32,45 @@
         <div class="col-md-6 text-center ">
 
             <div class="home-header-image-holder ">
-                <img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png" alt="CEENL">
+                <img class="rounded img-fluid full-width mt-5" width="250" height="75" src="INE.png" alt="INE">
 
             </div>
         </div>
     </div>
-</head>
-<body>
     <form name="form" action="Entrar">
         <h2 class="text-center mt-5">Registrar datos de la elección</h2>
         <div>
             <h3 class="fs-5 text-center fw-bold">Nombre de la elección:</h3><br>
         </div>
         <div class="center">
-            <button class="btn btn-sm btn-secondary" onclick="location.href='opciones1.html'" style="margin-right:20px ;"> 
+            <button class="btn btn-sm btn-secondary" onclick="location.href='opciones1.html'" style="margin-right:20px ;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-                  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
                 </svg>
-              </button>
-            <h3 class="text-center" ><input id="nombreElecciones" type="name" placeholder="Ej. Elecciones Municipio 2050" style="font-size: 20px; width: 300px;" required></h3>
-            <input class= "btn btn-warning" id="enviar" type="button" onclick="postInfo()" value="Enviar" style="margin-left:20px ;"></input>
+            </button>
+            <h3 class="text-center"><input id="nombreElecciones" type="text" placeholder="Ej. Elecciones Municipio 2050" style="font-size: 20px; width: 300px;" required></h3>
+            <input class="btn btn-warning" id="enviar" type="button" onclick="postInfo()" value="Enviar" style="margin-left:20px ;">
         </div>
     </form>
-</body>
-<script>
-    const sendBtn = document.getElementById("enviar")
-    const inputV = document.getElementById("nombreElecciones")
 
-    const baseurl = 'http://localhost:4000/'
-    const postInfo = async() => {
-    const res = await fetch(baseurl +'eleccion',{
-        method: 'POST',
-        headers: {
-            "Content-Type": 'application/json'
-        },
-        body: JSON.stringify({
-        name: document.getElementById("nombreElecciones").value,
-        })
-        })
-        window.location='Registrar2.html';
-    }
-</script>
+    <script>
+        const sendBtn = document.getElementById("enviar")
+        const inputV = document.getElementById("nombreElecciones")
+
+        const baseurl = 'http://localhost:4000/'
+        const postInfo = async () => {
+            const res = await fetch(baseurl + 'eleccion', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    name: document.getElementById("nombreElecciones").value,
+                })
+            })
+            window.location = 'Registrar2.html';
+        }
+    </script>
+</body>
 </html>
 

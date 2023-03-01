@@ -20,11 +20,14 @@
 <script type="text/javascript">
 	function ir(){
 		contra = 1234
+		contra2 = 5678
 		console.log("hola");
 		if(document.form.psw.value == contra){
 			window.location = "opciones1.html";
-			console.log("Contra")
-		}else{
+		}else if(document.form.psw.value == contra2){
+			window.location = "opciones1-casilla.html";
+		}
+		else{
 			alert("Contraseña Incorrecta");
 		}
 	}
@@ -43,14 +46,14 @@
 <div class="row justify-content-center">
 	<div class="col-md-6 text-center ">
 		<div class="home-header-image-holder ">
-			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png"  alt="CEENL">
+			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ine.png"  alt="INE">
 		</div>
 	</div>
 </div>
 <div class="row justify-content-center mt-5">
 	<div class="col-md-5 vertical-align-middle">
 		<div class="card shadow-sm borders-0 mb-3">
-			<div class="card-header text-bg-warning text-center">CLAVE</div>
+			<div class="card-header text-center">CLAVE</div>
 			<form name="form" role="entrar" class="d-flex justify-content-center">
 				<div class="hstack gap-3 me-3">
 					<input class="form-control form-control-sm me-auto mb-3 mt-3" name="psw" type="password" placeholder="Ingresa la clave..." aria-label="Ingresa la clave..." required>

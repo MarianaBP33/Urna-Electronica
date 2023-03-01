@@ -1,7 +1,8 @@
 
 let state = {
     eleccion: '',
-    municipio: ''
+    municipio: '',
+    estado:''
 }
 
 module.exports = state;

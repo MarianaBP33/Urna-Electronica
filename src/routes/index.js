@@ -1,11 +1,13 @@
 const{ Router } = require('express')
 const router = Router();
 
-const { getMunicipios, createEleccion, getPartidos, createCandidato, createCandidato2, createCandidato3, getElecciones, getBoleta,getBoletaGober, postVote, getBoletaPresRep, getEleccion, getVotos, getVotos2, getVotos3} = require('../controllers/index.controller')
+const { getMunicipios, createEleccion, getPartidos, getLocation,createCandidato, createCandidato2, createCandidato3, getElecciones, getBoleta,getBoletaGober, postVote, getBoletaPresRep, getEleccion, getVotos, getVotos2, getVotos3, getEstados} = require('../controllers/index.controller')
 router.get('/municipios',getMunicipios);
 router.get('/partidos',getPartidos);
+router.get('/estados',getEstados)
 
 router.post('/eleccion',createEleccion);
+router.post('/location',getLocation);
 
 router.post('/candidato',createCandidato);
 router.post('/candidato2',createCandidato2);

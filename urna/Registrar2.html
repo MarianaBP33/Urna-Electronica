@@ -42,106 +42,106 @@
 <div class="row justify-content-center">
 	<div class="col-md-6 text-center ">
 		<div class="home-header-image-holder ">
-			<img class="rounded img-fluid full-width mt-5" width="250px" height="75px" src="ceenl.png"  alt="CEENL">
+			<img class="rounded img-fluid full-width mt-5" width="250" height="75" src="INE.png"  alt="INE">
 		</div>
 	</div>
 </div>
-</head>
-<body>
+
     <div class="center">
-        <form name="form" >
-        <h1 style="text-align: center; margin-top: 50px;">Registrar Datos de la Elección</h1>
-        <h2 style="text-align: center;  margin-top: 40px;">Presidente Municipal</h2><br>
+        <form name="form">
+            <h1 style="text-align: center; margin-top: 50px;">Registrar Datos de la Elección</h1>
+            <h2 style="text-align: center;  margin-top: 40px;">Presidente Municipal</h2><br>
         </form>
     </div>
     <div class="center2">
         <div class="input-group input-group-sm">
             <span class="input-group-text text-bg-warning">Nombre y Apelido</span>
             <input id='nombreCandidato' type="text" aria-label="First name" class="form-control">
-            <input id='apellidoCandidato'type="text" aria-label="Last name" class="form-control">
+            <input id='apellidoCandidato' type="text" aria-label="Last name" class="form-control">
         </div>
         <div class="input-group input-group-sm mb-3 mt-3">
             <label class="input-group-text text-bg-warning" for="inputGroupSelect01">Partido</label>
             <select class="form-select" id="partido">
-              <option selected>Elegir...</option>
+                <option selected>Elegir...</option>
             </select>
         </div>
         <div class="input-group input-group-sm mb-3 mt-3">
             <label class="input-group-text text-bg-warning " for="inputGroupSelect01">Municipio</label>
-            <select class="form-select" id="municipio" >
-              <option selected>Elegir...</option>
+            <select class="form-select" id="municipio">
+                <option selected>Elegir...</option>
             </select>
         </div>
         <div>
-            <button class="btn btn-sm btn-secondary" onclick="location.href='Registrar1.html'" > 
+            <button class="btn btn-sm btn-secondary" onclick="location.href='Registrar1.html'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
                 </svg>
             </button>
-            <input type="button" class="btn btn-sm btn-secondary"value="Enviar" onclick="createCandidato()">
+            <input type="button" class="btn btn-sm btn-secondary" value="Enviar" onclick="createCandidato()">
         </div>
     </div>
-    
-</body>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-    const sendBtn = document.getElementById("enviar");
-    const selectMunicipios = document.getElementById("municipio");
-    const selectPartidos = document.getElementById("partido");
 
-    const baseurl = 'http://localhost:4000';
 
-    const getMunicipios = async() => {
-        const { data } = await axios.get(baseurl + '/municipios');
-        data.forEach(function(item) {
-            let o = document.createElement('option');
-            o.text = item.municipio_nombre;
-            o.value = item.municipio_id;
-            municipio.appendChild(o);
-        });
-    }
-    const getPartidos = async() => {
-        const { data } = await axios.get(baseurl + '/partidos');
-            data.forEach(function(item) {
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const sendBtn = document.getElementById("enviar");
+        const selectMunicipios = document.getElementById("municipio");
+        const selectPartidos = document.getElementById("partido");
+
+        const baseurl = 'http://localhost:4000';
+
+        const getMunicipios = async () => {
+            const { data } = await axios.get(baseurl + '/municipios');
+            data.forEach(function (item) {
+                let o = document.createElement('option');
+                o.text = item.municipio_nombre;
+                o.value = item.municipio_id;
+                municipio.appendChild(o);
+            });
+        }
+        const getPartidos = async () => {
+            const { data } = await axios.get(baseurl + '/partidos');
+            data.forEach(function (item) {
                 let p = document.createElement('option');
                 p.text = item.partido_nombre;
                 p.value = item.partido_id;
                 partido.appendChild(p);
-            });  
-    
-    }
-    const createCandidato = async() => {
-        var selectPartido = document.getElementById('partido');
-        var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
-        console.log(document.getElementById("partido").value)
-        
-        var selectMunicipio = document.getElementById('municipio');
-        var municipioValue = selectMunicipio.options[selectMunicipio.selectedIndex].value;
-        console.log(document.getElementById("municipio").value)
+            });
 
-        const res = await axios.post(baseurl + '/candidato', {
-            nombreCandidato: document.getElementById('nombreCandidato').value +' '+document.getElementById('apellidoCandidato').value, 
-            municipioId: municipioValue,
-            partidoId: partidoValue,
-            eleccionId: 2,
-            puestoId: 1
-        });        
-        let text;
-        if (confirm("¿Quiere Registrar otro Candidato a Presidente Municipal?") == true) {
-            text = "You pressed OK!";
-            document.getElementById("partido").value = null
-            document.getElementById("municipio").value = null
-            document.getElementById('nombreCandidato').value = null
-        } else {
-            window.location='Registrar3.html'
         }
-        
-    }
-    
-    getMunicipios();
-    getPartidos();   
-   
+        const createCandidato = async () => {
+            var selectPartido = document.getElementById('partido');
+            var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
+            console.log(document.getElementById("partido").value)
 
-</script>
+            var selectMunicipio = document.getElementById('municipio');
+            var municipioValue = selectMunicipio.options[selectMunicipio.selectedIndex].value;
+            console.log(document.getElementById("municipio").value)
+
+            const res = await axios.post(baseurl + '/candidato', {
+                nombreCandidato: document.getElementById('nombreCandidato').value + ' ' + document.getElementById('apellidoCandidato').value,
+                municipioId: municipioValue,
+                partidoId: partidoValue,
+                eleccionId: 2,
+                puestoId: 1
+            });
+            let text;
+            if (confirm("¿Quiere Registrar otro Candidato a Presidente Municipal?") == true) {
+                text = "You pressed OK!";
+                document.getElementById("partido").value = null
+                document.getElementById("municipio").value = null
+                document.getElementById('nombreCandidato').value = null
+            } else {
+                window.location = 'Registrar3.html'
+            }
+
+        }
+
+        getMunicipios();
+        getPartidos();
+
+
+    </script>
+</body>
 </html> 
 

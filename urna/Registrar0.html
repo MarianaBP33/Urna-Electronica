@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Electronica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <style>
+        h1 {
+            text-align: center;
+            font-size: 30px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .center2 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-left: 200px;
+            margin-right: 200px;
+        }
+    </style>
+</head>
+<body>
+    <!--Nav-->
+    <nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
+        <div class="container-fluid nav justify-content-center">
+            <a class="navbar-brand" href="opciones1.html">
+                <span>URNA ELECTRÓNICA</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6 text-center ">
+
+            <div class="home-header-image-holder ">
+                <img class="rounded img-fluid full-width mt-5" width="250" height="75" src="INE.png" alt="INE">
+
+            </div>
+        </div>
+    </div>
+    <div class="center">
+        <form name="form">
+            <h1 style="text-align: center; margin-top: 50px;">Registrar Datos de la Elección</h1>
+            <h2 style="text-align: center;  margin-top: 40px;">Estado de la Republica</h2><br>
+        </form>
+    </div>
+    <div class="center2">
+        <div class="input-group input-group-sm mb-3 mt-3">
+            <label class="input-group-text text-bg-warning" for="inputGroupSelect01">Estado</label>
+            <select class="form-select" id="estado">
+                <option selected>Elegir...</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-sm btn-secondary" onclick="location.href='Registrar1.html'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
+                </svg>
+            </button>
+            <input type="button" class="btn btn-sm btn-secondary" value="Enviar" onclick="createCandidato()">
+        </div>
+    </div>
+
+    <script>
+
+        const sendBtn = document.getElementById("enviar");
+        const selectEstado = document.getElementById("estado");
+
+        const baseurl = 'http://localhost:4000';
+
+        const getEstado = async () => {
+            const { data } = await axios.get(baseurl + '/estado');
+            data.forEach(function (item) {
+                let o = document.createElement('option');
+                o.text = item.estado_nombre;
+                o.value = item.estado_id;
+                estado.appendChild(o);
+            });
+        }
+        const inputV = document.getElementById("nombreElecciones")
+        window.location = 'Registrar0.html';
+    
+    </script>
+</body>
+</html>
