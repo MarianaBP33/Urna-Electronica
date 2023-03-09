@@ -77,12 +77,12 @@
                     <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
                 </svg>
             </button>
-            <input type="button" class="btn btn-sm btn-secondary" value="Enviar" onclick="createCandidato()">
-        </div>
+            <input type="button" id = "send" class="btn btn-sm btn-secondary" value="Enviar" onclick="createCandidato()" disabled>
+            <input type="button" class="btn btn-sm btn-secondary" value="Saltar" onclick="window.location = 'Registrar3.html'">
     </div>
 
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js" type="text/javascript"></script>
     <script>
         const sendBtn = document.getElementById("enviar");
         const selectMunicipios = document.getElementById("municipio");
@@ -112,18 +112,16 @@
         const createCandidato = async () => {
             var selectPartido = document.getElementById('partido');
             var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
-            console.log(document.getElementById("partido").value)
 
             var selectMunicipio = document.getElementById('municipio');
             var municipioValue = selectMunicipio.options[selectMunicipio.selectedIndex].value;
-            console.log(document.getElementById("municipio").value)
 
             const res = await axios.post(baseurl + '/candidato', {
-                nombreCandidato: document.getElementById('nombreCandidato').value + ' ' + document.getElementById('apellidoCandidato').value,
-                municipioId: municipioValue,
-                partidoId: partidoValue,
-                eleccionId: 2,
-                puestoId: 1
+            nombreCandidato: document.getElementById('nombreCandidato').value + ' ' + document.getElementById('apellidoCandidato').value,
+            municipioId: municipioValue,
+            partidoId: partidoValue,
+            eleccionId: 2,
+            puestoId: 1
             });
             let text;
             if (confirm("¿Quiere Registrar otro Candidato a Presidente Municipal?") == true) {
@@ -134,12 +132,17 @@
             } else {
                 window.location = 'Registrar3.html'
             }
-
+        }
+        document.onclick = function() {
+            if(document.getElementById('partido').value != '' && document.getElementById('nombreCandidato').value != '' && document.getElementById('municipio').value != '' && document.getElementById('apellidoCandidato').value !=''){
+                document.getElementById('send').disabled = false
+            }else{
+                document.getElementById('send').disabled = true
+            }
         }
 
         getMunicipios();
         getPartidos();
-
 
     </script>
 </body>

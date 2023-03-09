@@ -14,13 +14,11 @@ const pool = new Pool({
 const getMunicipios = async(req, res) => {
     const response = await pool.query('SELECT municipio_nombre,municipio_id FROM urna.municipios');
     res.send(response.rows);
-    console.log(response.rows)
 };
 
 const getEstados = async(req, res) => {
     const response = await pool.query('SELECT estado_nombre,estado_id FROM urna.estados');
     res.send(response.rows);
-    console.log(response.rows)
 };
 
 const getPartidos = async(req, res) => {
@@ -37,8 +35,6 @@ const createCandidato = async(req, res) => {
     const{nombreCandidato, municipioId, partidoId, puestoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, municipio_id, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4, $5)',[nombreCandidato, municipioId, partidoId, eleccion_id, puestoId]);
-    console.log(state.eleccion)
-    console.log(response.rows)
     res.send('Candidato añadido');
 };
 
@@ -46,8 +42,6 @@ const createCandidato2 = async(req, res) => {
     const{nombreCandidato, partidoId, puestoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4)',[nombreCandidato, partidoId, eleccion_id, puestoId]);
-    console.log(state.eleccion)
-    console.log(response.rows)
     res.send('Candidato añadido');
 };
 
@@ -55,8 +49,6 @@ const createCandidato3 = async(req, res) => {
     const{nombreCandidato, partidoId, puestoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4)',[nombreCandidato, partidoId, eleccion_id, puestoId]);
-    console.log(state.eleccion)
-    console.log(response.rows)
     res.send('Candidato añadido');
 };
  
@@ -65,7 +57,6 @@ const createEleccion = async(req, res) => {
     await pool.query('INSERT INTO urna.elecciones (eleccion_nombre) VALUES ($1)',[name]);
     const response = await pool.query('SELECT eleccion_id FROM urna.elecciones WHERE eleccion_nombre = $1',[name])
     state.eleccion = response.rows
-    console.log(state.eleccion[0])
     res.send('Persona añadida');
 };
 
@@ -73,7 +64,6 @@ const getEleccion = async(req, res) => {
     const{name} = req.body;
     const{municipio} = req.body;
     state.municipio = municipio;
-    console.log(state.municipio)
     const response = await pool.query('SELECT eleccion_id FROM urna.elecciones WHERE eleccion_nombre = $1',[name])
     state.eleccion = response.rows
     res.send('Persona añadida');
@@ -88,11 +78,9 @@ const getLocation = async(req, res) =>{
 const getBoleta = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     //const {municipio_id} = state.municipio
-    console.log(eleccion_id)
     //console.log(municipio_id)
     const response = await pool.query('SELECT candidato_id, municipio_id, candidato_nombre, partido_id, puesto_id FROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2',[1,eleccion_id])
     res.send(response.rows);
-    console.log(response.rows)
 }
 
 const getBoletaGober = async(req, res) => {
@@ -127,14 +115,12 @@ const getVotos2 = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('SELECT b.partido_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 2 GROUP BY a.candidato_nombre, b.partido_id ',[eleccion_id])
     res.send(response.rows);
-    console.log(response.rows)
 }
 
 const getVotos3 = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('SELECT b.partido_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 3 GROUP BY a.candidato_nombre, b.partido_id ',[eleccion_id])
     res.send(response.rows);
-    console.log(response.rows)
 }
 
 module.exports = {
