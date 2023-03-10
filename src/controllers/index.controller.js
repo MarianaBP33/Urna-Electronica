@@ -114,14 +114,16 @@ const postVote = async(req, res) => {
 
 const getVotos = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('SELECT b.partido_id, a.eleccion_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 1 GROUP BY a.candidato_nombre, b.partido_id, a.eleccion_id ',[eleccion_id])
+    const{municipio_id} = state.municipio[0]
+    const response = await pool.query('SELECT b.partido_id, a.eleccion_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 1 AND a.municipio_id = $2 GROUP BY a.candidato_nombre, b.partido_id, a.eleccion_id ',[eleccion_id,municipio_id])
     res.send(response.rows);
 }
 
 
 const getVotos2 = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('SELECT b.partido_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 2 GROUP BY a.candidato_nombre, b.partido_id ',[eleccion_id])
+    const {estado_id} = state.estado[0]
+    const response = await pool.query('SELECT b.partido_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 2 AND a.estado_id = $2 GROUP BY a.candidato_nombre, b.partido_id ',[eleccion_id, estado_id])
     res.send(response.rows);
 }
 
