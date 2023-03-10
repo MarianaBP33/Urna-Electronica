@@ -41,10 +41,10 @@
     <p style="text-align: center;">Elije el estado y el municipio en donde te encuentras:</p>
     <div class= "center">
         <select id="estados">
-            <option value="Seleccione el nombre del estado "></option>        
+            <option ></option>        
         </select><br> 
         <select id="municipios">
-            <option value="Seleccione el nombre del municipio "></option>        
+            <option ></option>        
         </select><br>         
         <input type= "button" onclick="postInfo()" value="Enviar" class="btn btn-sm btn-secondary m-3">
         <button class="btn btn-sm btn-secondary" onclick="location.href='opciones1-casilla.html'" > 
@@ -69,8 +69,10 @@
             estados.appendChild(o);
         });
     }
-    const getMunicipios = async() => {
-        const { data } = await axios.get(baseurl + '/municipios');
+    const getMunicipioFromState = async() => {
+        estado_id = document.getElementById('estados').value;
+        const { data } = await axios.get(baseurl + '/municipios/'+estado_id);
+        console.log(data);
         data.forEach(function(item) {
             let o = document.createElement('option');
             o.text = item.municipio_nombre;
@@ -79,20 +81,26 @@
         });
     }
     const postInfo = async() => {
-        /* var selectEstado = document.getElementById('estados');
+        var selectEstado = document.getElementById('estados');
         var selectMunicipio = document.getElementById('municipios');
         var municipioValue = selectMunicipio.options[selectMunicipio.selectedIndex].text;
-        var estadoValue = selectEstado.options[selectEleccion.selectedIndex].text;
-        console.log(document.getElementById("estados").value)
+        var estadoValue = selectEstado.options[selectEstado.selectedIndex].text;
         const res = await axios.post(baseurl +'/location',{
-            estado: estadoValue,
-            municipio: municipioValue
-        }); */
+            municipioName: municipioValue,
+            estadoName: estadoValue
+        }); 
         window.location='abrir1.html';
     }
 
+    document.onclick = function() {
+        if(document.getElementById('estados').value != ''){
+            if(document.getElementById('municipios').value == ''){
+                getMunicipioFromState()
+
+            }
+        }
+    } 
     getEstados()
-    getMunicipios()
 
 </script>
 </html>

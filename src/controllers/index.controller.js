@@ -1,3 +1,4 @@
+const { reset } = require('nodemon');
 const { Pool } = require('pg');
 const state = require('../store/state');
 
@@ -12,13 +13,19 @@ const pool = new Pool({
 
 
 const getMunicipios = async(req, res) => {
-    const response = await pool.query('SELECT municipio_nombre,municipio_id FROM urna.municipios');
+    const response = await pool.query('SELECT municipio_nombre,municipio_id, estado_id FROM urna.municipios');
     res.send(response.rows);
 };
 
 const getEstados = async(req, res) => {
     const response = await pool.query('SELECT estado_nombre,estado_id FROM urna.estados');
     res.send(response.rows);
+};
+
+const getMunicipioFromState = async(req,res) =>{
+    const{estado_id} = req.params;
+    const response = await pool.query('SELECT municipio_nombre,municipio_id,estado_id FROM urna.municipios WHERE estado_id = $1',[estado_id]);
+    res.send(response.rows)
 };
 
 const getPartidos = async(req, res) => {
@@ -62,8 +69,6 @@ const createEleccion = async(req, res) => {
 
 const getEleccion = async(req, res) => {
     const{name} = req.body;
-    const{municipio} = req.body;
-    state.municipio = municipio;
     const response = await pool.query('SELECT eleccion_id FROM urna.elecciones WHERE eleccion_nombre = $1',[name])
     state.eleccion = response.rows
     res.send('Persona añadida');
@@ -71,35 +76,39 @@ const getEleccion = async(req, res) => {
 
 const getLocation = async(req, res) =>{
     const{estado, municipio} = req.body;
-    state.estado = estado;
-    state.municipio = municipio;
+    const{municipioName} = req.body;
+    const{estadoName} = req.body;
+    const response = await pool.query('SELECT municipio_id FROM urna.municipios WHERE municipio_nombre = $1',[municipioName])
+    const response2 = await pool.query('SELECT estado_id FROM urna.estados WHERE estado_nombre = $1',[estadoName])
+
+    state.municipio = response.rows;
+    state.estado = response2.rows;
+
+    res.send('added')
 }
 
 const getBoleta = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    //const {municipio_id} = state.municipio
-    //console.log(municipio_id)
-    const response = await pool.query('SELECT candidato_id, municipio_id, candidato_nombre, partido_id, puesto_id FROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2',[1,eleccion_id])
+    const {municipio_id} = state.municipio[0]
+    const response = await pool.query('SELECT candidato_id, municipio_id, candidato_nombre, partido_id, puesto_id FROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2 AND municipio_id =$3',[1,eleccion_id, municipio_id])
     res.send(response.rows);
 }
 
 const getBoletaGober = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('SELECT candidato_id, candidato_nombre, partido_id, puesto_id FROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2',[2,eleccion_id])
+    const {estado_id} = state.estado[0]
+    const response = await pool.query('SELECT candidato_id, candidato_nombre, partido_id, puesto_id FROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2 and estado_id =$3',[2,eleccion_id,estado_id])
     res.send(response.rows);
-    console.log(response.rows)
 }
 const getBoletaPresRep = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('SELECT candidato_id, candidato_nombre, partido_id, puesto_id FROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2',[3,eleccion_id])
     res.send(response.rows);
-    console.log(response.rows)
 }
 const postVote = async(req, res) => {
     const{nombreCandidato, municipioId, puestoId, partidoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('INSERT INTO urna.votos (candidato_nombre, eleccion_id, municipio_id, puesto_id, partido_id) VALUES ($1, $2, $3, $4, $5)',[nombreCandidato, eleccion_id, municipioId, puestoId, partidoId]);
-    console.log(response.rows)
     res.send('Candidato añadido');
 };
 
@@ -107,7 +116,6 @@ const getVotos = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const response = await pool.query('SELECT b.partido_id, a.eleccion_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 1 GROUP BY a.candidato_nombre, b.partido_id, a.eleccion_id ',[eleccion_id])
     res.send(response.rows);
-    console.log(response.rows)
 }
 
 
@@ -140,5 +148,6 @@ module.exports = {
     getVotos2,
     getVotos3,
     getEstados,
-    getLocation
+    getLocation,
+    getMunicipioFromState
 }; 
