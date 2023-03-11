@@ -1,4 +1,3 @@
-const { reset } = require('nodemon');
 const { Pool } = require('pg');
 const state = require('../store/state');
 
