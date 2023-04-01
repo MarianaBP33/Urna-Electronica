@@ -1,7 +1,7 @@
 const{ Router } = require('express')
 const router = Router();
 
-const { getMunicipios, createEleccion, getPartidos, getLocation,createCandidato, createCandidato2, createCandidato3, getElecciones, getBoleta,getBoletaGober, postVote, getBoletaPresRep, getEleccion, getVotos, getVotos2, getVotos3, getEstados, getMunicipioFromState} = require('../controllers/index.controller')
+const { loginCtrl,getMunicipios, createEleccion, getPartidos, getLocation,createCandidato, createCandidato2, createCandidato3, getElecciones, getBoleta,getBoletaGober, postVote, getBoletaPresRep, getEleccion, getVotos, getVotos2, getVotos3, getEstados, getMunicipioFromState} = require('../controllers/index.controller')
 router.get('/municipios',getMunicipios);
 router.get('/partidos',getPartidos);
 router.get('/estados',getEstados)
@@ -28,6 +28,9 @@ router.get('/resultados3',getVotos3);
 
 
 router.post('/abrir',getEleccion);
+
+router.post('/login', loginCtrl);
+
 
 
 module.exports = router;

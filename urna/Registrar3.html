@@ -27,6 +27,10 @@
             margin-left: 200px;
             margin-right: 200px;
         }
+        .btnSend{
+            background-color: green;
+            color: white;
+        }
 	</style>
 </head>
 <body>
@@ -56,15 +60,19 @@
     </div>
     <div class="center2">
         <div class="input-group input-group-sm">
-            <span class="input-group-text text-bg-warning">Nombre y Apelido</span>
+            <span class="input-group-text text-bg">Nombre y Apelido</span>
             <input id='nombreCandidato' type="text" aria-label="First name" class="form-control">
             <input id='apellidoCandidato' type="text" aria-label="Last name" class="form-control">
         </div>
         <div class="input-group input-group-sm mb-3 mt-3">
-            <label class="input-group-text text-bg-warning" for="inputGroupSelect01">Partido</label>
+            <label class="input-group-text text-bg" for="inputGroupSelect01">Partido</label>
             <select class="form-select" id="partido">
               <option selected>Elegir...</option>
             </select>
+            <label class="input-group-text text-bg " for="inputGroupSelect01">Estado</label>
+            <select class="form-select" id="estados">
+                <option selected>Elegir...</option>        
+            </select><br> 
         </div>
         <div>
             <button class="btn btn-sm btn-secondary" onclick="location.href='Registrar2.html'" > 
@@ -72,7 +80,7 @@
                 <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                 </svg>
             </button>
-            <input id='send' type="button" class="btn btn-sm btn-secondary"value="Enviar" onclick="createCandidato()" disabled>
+            <input id='send' type="button" class="btnSend btn-sm btn-secondary"value="Enviar" onclick="createCandidato()" disabled>
             <input type="button" class="btn btn-sm btn-secondary" value="Saltar" onclick="window.location = 'Registrar4.html'">
         </div>
     </div>
@@ -81,8 +89,6 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     const sendBtn = document.getElementById("enviar");
-    const selectPartidos = document.getElementById("partido");
-
     const baseurl = 'http://localhost:4000';
 
     const getPartidos = async() => {
@@ -95,17 +101,30 @@
             });  
     
     }
+    const getEstados = async() => {
+        const { data } = await axios.get(baseurl + '/estados');
+        data.forEach(function(item) {
+            let o = document.createElement('option');
+            o.text = item.estado_nombre;
+            o.value = item.estado_id;
+            estados.appendChild(o);
+        });
+    }
     const createCandidato = async() => {
         var selectPartido = document.getElementById('partido');
         var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
         console.log(document.getElementById("partido").value)
+
+        var selectEstado = document.getElementById('estados');
+        var estadoValue = selectEstado.options[selectEstado.selectedIndex].value;
         
 
         const res = await axios.post(baseurl + '/candidato2', {
             nombreCandidato: document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
             partidoId: partidoValue,
             eleccionId: 2,
-            puestoId: 2
+            puestoId: 2,
+            estadoId: estadoValue
         });
         let text;
         if (confirm("¿Quiere Registrar otro Candidato a Gobernador?") == true) {
@@ -125,6 +144,7 @@
     }
 
     getPartidos();
+    getEstados();
 
 </script>
 </html> 

@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+const{encrypt, compare } = require('../helpers/handlerBcrypt')
 const state = require('../store/state');
 
 const pool = new Pool({
@@ -9,6 +10,30 @@ const pool = new Pool({
     port: '5432'
 
 });
+
+const loginCtrl = async(req,res) => {
+    try{
+        const{username, password} = req.body
+        const user = await pool.query('SELECT username, password FROM urna.usuarios WHERE username = $1',[username]);
+        const checkPasswsord = await compare(password, '1234')
+       // const tokenSession = await tokenSign(user)
+        if(!checkPasswsord){
+            res.send({
+                message:'Contraseña correcta'
+                //token:tokenSession
+            })
+        }
+        if(checkPasswsord){
+            res.status(409)
+            res.send({
+                error: 'Contraseña Inválida'
+            })
+            return 
+        }
+    }catch(error){
+        console.error(error)
+    }
+}
 
 
 const getMunicipios = async(req, res) => {
@@ -45,9 +70,9 @@ const createCandidato = async(req, res) => {
 };
 
 const createCandidato2 = async(req, res) => {
-    const{nombreCandidato, partidoId, puestoId} = req.body;
+    const{nombreCandidato, partidoId, puestoId, estadoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4)',[nombreCandidato, partidoId, eleccion_id, puestoId]);
+    const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id, estado_id) VALUES ($1, $2, $3, $4,$5)',[nombreCandidato, partidoId, eleccion_id, puestoId,estadoId]);
     res.send('Candidato añadido');
 };
 
@@ -150,5 +175,7 @@ module.exports = {
     getVotos3,
     getEstados,
     getLocation,
-    getMunicipioFromState
+    getMunicipioFromState,
+    loginCtrl
+    
 }; 
