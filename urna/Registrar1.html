@@ -20,8 +20,7 @@
     }
 </style>
 </head>
-<body>
-    <!--Nav-->
+<body >
     <nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
         <div class="container-fluid nav justify-content-center">
             <a class="navbar-brand" href="opciones1.html" >
@@ -56,7 +55,7 @@
         </div>
     </form>
 
-    <script>
+    <script type="text/javascript"">
         const sendBtn = document.getElementById("enviar")
         const inputV = document.getElementById("nombreElecciones")
 
@@ -73,6 +72,14 @@
             })
             window.location = 'Registrar2.html';
         }
+        window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }	
+
+       
+            
+        
     </script>
 </body>
 </html>

@@ -18,17 +18,26 @@
 	</style>
 </head>
 <script type="text/javascript">
-	function ir(){
-		contra = 1234
-		contra2 = 5678
-		console.log("hola");
-		if(document.form.psw.value == contra){
-			window.location = "opciones1.html";
-		}else if(document.form.psw.value == contra2){
-			window.location = "opciones1-casilla.html";
-		}
-		else{
+
+const baseurl = 'http://localhost:4000/'
+	const login = async () => {
+		const { status} = await fetch(baseurl + 'login', {
+			method: 'POST',
+			headers: {
+				"Content-Type": 'application/json'
+			},
+			body: JSON.stringify({
+				password: document.form.psw.value
+			})
+			
+		})
+		if (status === 201) {
+			window.location = 'opciones1.html';
+		}if(status === 202){
+			window.location = 'opciones1-casilla.html'
+		} if(status == 400) {
 			alert("Contraseña Incorrecta");
+
 		}
 	}
 </script>
@@ -57,7 +66,7 @@
 			<form name="form" role="entrar" class="d-flex justify-content-center">
 				<div class="hstack gap-3 me-3">
 					<input class="form-control form-control-sm me-auto mb-3 mt-3" name="psw" type="password" placeholder="Ingresa la clave..." aria-label="Ingresa la clave..." required>
-					<input class="btn btn-sm btn-secondary" onclick="ir()" type="button" value="Entrar">
+					<input class="btn btn-sm btn-secondary" onclick="login()" type="button" value="Entrar">
 				</div>
 				<div class="vr"></div>
 			</form>

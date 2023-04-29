@@ -60,18 +60,22 @@
     </div>
     <div class="center2">
         <div class="input-group input-group-sm">
-            <span class="input-group-text text-bg">Nombre y Apelido</span>
+            <span class="input-group-text text-bg">Nombre y Apellido</span>
             <input id='nombreCandidato' type="text" aria-label="First name" class="form-control">
             <input id='apellidoCandidato' type="text" aria-label="Last name" class="form-control">
         </div>
         <div class="input-group input-group-sm mb-3 mt-3">
             <label class="input-group-text text-bg" for="inputGroupSelect01">Partido</label>
             <select class="form-select" id="partido">
-                <option selected>Elegir...</option>
+                <option selected></option>
+            </select>
+            <label class="input-group-text text-bg " for="inputGroupSelect01">Estado</label>
+            <select class="form-select" id="estados">
+                <option selected></option>
             </select>
             <label class="input-group-text text-bg " for="inputGroupSelect01">Municipio</label>
-            <select class="form-select" id="municipio">
-                <option selected>Elegir...</option>
+            <select class="form-select" id="municipios">
+                <option selected></option>
             </select>
         </div>
        
@@ -89,18 +93,26 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js" type="text/javascript"></script>
     <script>
         const sendBtn = document.getElementById("enviar");
-        const selectMunicipios = document.getElementById("municipio");
-        const selectPartidos = document.getElementById("partido");
 
         const baseurl = 'http://localhost:4000';
 
-        const getMunicipios = async () => {
-            const { data } = await axios.get(baseurl + '/municipios');
-            data.forEach(function (item) {
+        const getEstados = async() => {
+        const { data } = await axios.get(baseurl + '/estados');
+        data.forEach(function(item) {
+            let o = document.createElement('option');
+            o.text = item.estado_nombre;
+            o.value = item.estado_id;
+            estados.appendChild(o);
+        });
+        }
+        const getMunicipioFromState = async() => {
+            estado_id = document.getElementById('estados').value;
+            const { data } = await axios.get(baseurl + '/municipios/'+estado_id);
+            data.forEach(function(item) {
                 let o = document.createElement('option');
                 o.text = item.municipio_nombre;
                 o.value = item.municipio_id;
-                municipio.appendChild(o);
+                municipios.appendChild(o);
             });
         }
         const getPartidos = async () => {
@@ -113,41 +125,74 @@
             });
 
         }
+        
         const createCandidato = async () => {
             var selectPartido = document.getElementById('partido');
             var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
 
-            var selectMunicipio = document.getElementById('municipio');
+            var selectMunicipio = document.getElementById('municipios');
             var municipioValue = selectMunicipio.options[selectMunicipio.selectedIndex].value;
 
-            const res = await axios.post(baseurl + '/candidato', {
-            nombreCandidato: document.getElementById('nombreCandidato').value + ' ' + document.getElementById('apellidoCandidato').value,
-            municipioId: municipioValue,
-            partidoId: partidoValue,
-            eleccionId: 2,
-            puestoId: 1
-            });
+            var selectEstado = document.getElementById('estados');
+            var estadoValue = selectEstado.options[selectEstado.selectedIndex].value;
+
+            const { status} = await fetch(baseurl + '/candidato', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    nombreCandidato:document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
+                    puestoId: 1,
+                    partidoId: partidoValue,
+                })
+            
+		    })
+            if(status === 200) {
+                const res = await axios.post(baseurl + '/candidato', {
+                nombreCandidato: document.getElementById('nombreCandidato').value + ' ' + document.getElementById('apellidoCandidato').value,
+                municipioId: municipioValue,
+                partidoId: partidoValue,
+                estoadoId: estadoValue,
+                eleccionId: 2,
+                puestoId: 1
+                });
+            }
+            if(status == 400){
+                alert("Conflicto de nombre o partido/puesto repetido")
+            }
             let text;
             if (confirm("¿Quiere Registrar otro Candidato a Presidente Municipal?") == true) {
                 text = "You pressed OK!";
                 document.getElementById("partido").value = null
-                document.getElementById("municipio").value = null
+                document.getElementById("municipios").value = null
                 document.getElementById('nombreCandidato').value = null
+                document.getElementById('apellidoCandidato').value = null
+                document.getElementById('estados').value = null
             } else {
                 window.location = 'Registrar3.html'
             }
         }
-        document.onclick = function() {
-            if(document.getElementById('partido').value != '' && document.getElementById('nombreCandidato').value != '' && document.getElementById('municipio').value != '' && document.getElementById('apellidoCandidato').value !=''){
-                document.getElementById('send').disabled = false
-            }else{
-                document.getElementById('send').disabled = true
+            document.onclick = function() {
+                if(document.getElementById('estados').value != ''){
+                    if(document.getElementById('municipios').value == ''){
+                        getMunicipioFromState()
+                    }
+                }
+                if(document.getElementById('partido').value != '' && document.getElementById('nombreCandidato').value != '' && document.getElementById('municipios').value != '' && document.getElementById('apellidoCandidato').value !='' && document.getElementById('estados').value !=''){
+                    document.getElementById('send').disabled = false
+                }else{
+                    document.getElementById('send').disabled = true
+                }
             }
-        }
+            getEstados()
+            getMunicipioFromState();
+            getPartidos();
 
-        getMunicipios();
-        getPartidos();
-
+            window.history.forward();
+            function noBack() {
+                window.history.forward();
+            }	
     </script>
 </body>
 </html> 

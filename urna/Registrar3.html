@@ -113,24 +113,43 @@
     const createCandidato = async() => {
         var selectPartido = document.getElementById('partido');
         var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
-        console.log(document.getElementById("partido").value)
 
         var selectEstado = document.getElementById('estados');
         var estadoValue = selectEstado.options[selectEstado.selectedIndex].value;
         
+        const { status} = await fetch(baseurl + '/candidato2', {
+			method: 'POST',
+			headers: {
+				"Content-Type": 'application/json'
+			},
+			body: JSON.stringify({
+				nombreCandidato:document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
+                puestoId: 2,
+                partidoId: partidoValue,
 
-        const res = await axios.post(baseurl + '/candidato2', {
-            nombreCandidato: document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
-            partidoId: partidoValue,
-            eleccionId: 2,
-            puestoId: 2,
-            estadoId: estadoValue
-        });
+			})
+            
+		})
+        if (status === 200) {
+            const res = await axios.post(baseurl + '/candidato2', {
+                nombreCandidato: document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
+                partidoId: partidoValue,
+                eleccionId: 2,
+                puestoId: 2,
+                estadoId: estadoValue
+            });
+		}
+        if(status == 400) {
+			alert("Conflicto de nombre o partido/puesto repetido");
+        }
         let text;
         if (confirm("¿Quiere Registrar otro Candidato a Gobernador?") == true) {
             text = "You pressed OK!";
             document.getElementById("partido").value = null
             document.getElementById('nombreCandidato').value = null
+            document.getElementById('apellidoCandidato').value = null
+            document.getElementById('estado').value = null
+
         } else {
             window.location='Registrar4.html'
         }
@@ -145,7 +164,10 @@
 
     getPartidos();
     getEstados();
-
+    window.history.forward();
+        function noBack() {
+            window.history.forward();
+        }	
 </script>
 </html> 
 

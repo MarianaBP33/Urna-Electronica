@@ -68,7 +68,6 @@
 	const postInfo = async() => {
 		var selectEleccion = document.getElementById('menu');
 		var eleccionValue = selectEleccion.options[selectEleccion.selectedIndex].text;
-		console.log(document.getElementById("menu").value)
 		const res = await axios.post(baseurl +'/abrir',{
 				name: eleccionValue,
 		});

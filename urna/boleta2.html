@@ -92,7 +92,8 @@
     const baseurl = 'http://localhost:4000';
     const selectCandidatos = document.getElementById("boletas");
     let municipio = ''
-    const getBoleta = async() => {
+    let estado = ''
+    const getBoletaGober = async() => {
         const { data } = await axios.get(baseurl + '/boletaGober');
         var checkBoxId = 1
         data.forEach(function(item) {
@@ -111,6 +112,7 @@
 
             partidoId= item.partido_id;
             puesotId = item.puesto_id;
+            estado = item.estado_id;
             let text = document.createTextNode(item.candidato_nombre);
 
             newDiv.classList.add('card');
@@ -140,6 +142,7 @@
                 newDiv.appendChild(checkbox);
             }
         });
+
         let nullDiv = document.createElement('div');
         let text = document.createTextNode('Anular Voto');
         var checkbox = document.createElement('input');
@@ -185,9 +188,11 @@
 
     }
 
-    getBoleta()
+    getBoletaGober()
 
     const postVote = async() => {
+        console.log(estado)
+
             const res = await fetch(baseurl +'/boleta',{
                 method: 'POST',
                 headers: {
@@ -196,6 +201,7 @@
                 body: JSON.stringify({
                     nombreCandidato: document.querySelector('.checkbox1:checked').value,
                     municipioId: null,
+                    estadoId: estado,
                     puestoId: 2
                 })
             })

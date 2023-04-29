@@ -72,7 +72,6 @@
     const getMunicipioFromState = async() => {
         estado_id = document.getElementById('estados').value;
         const { data } = await axios.get(baseurl + '/municipios/'+estado_id);
-        console.log(data);
         data.forEach(function(item) {
             let o = document.createElement('option');
             o.text = item.municipio_nombre;

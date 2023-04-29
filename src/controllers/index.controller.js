@@ -1,37 +1,52 @@
 const { Pool } = require('pg');
 const{encrypt, compare } = require('../helpers/handlerBcrypt')
 const state = require('../store/state');
+var bcrypt = require('bcryptjs');
+
 
 const pool = new Pool({
-    host: 'urna.cei0eeqehwlw.us-east-1.rds.amazonaws.com',
+    host: 'localhost',
     user: 'postgres',
-    password: 'Practicum123',
+    password: 'root',
     database: 'postgres',
     port: '5432'
-
 });
 
 const loginCtrl = async(req,res) => {
+    const{password} = req.body
+
     try{
-        const{username, password} = req.body
-        const user = await pool.query('SELECT username, password FROM urna.usuarios WHERE username = $1',[username]);
-        const checkPasswsord = await compare(password, '1234')
-       // const tokenSession = await tokenSign(user)
-        if(!checkPasswsord){
-            res.send({
-                message:'Contraseña correcta'
-                //token:tokenSession
-            })
-        }
-        if(checkPasswsord){
-            res.status(409)
-            res.send({
-                error: 'Contraseña Inválida'
+        const user = await pool.query('SELECT username, password FROM urna.usuarios WHERE password = $1',[password]);
+        const psw = user.rows[0].password;
+        const salt = bcrypt.genSaltSync();
+        passwordHash = bcrypt.hashSync( psw, salt );
+        const validPassword = bcrypt.compareSync( password, passwordHash);
+        if(user.rows[0].username == 'registro' && validPassword){
+            res.status(201).json({
+                message:'Contraseña Válida',
             })
             return 
+        }else if(user.rows[0].username == 'abrir' && validPassword){
+            res.status(202).json({
+                message:'Contraseña Válida',
+            })
+            return
+        }else{
+            res.status(400).json({
+                message:'Contraseña Inválida',
+                //token:tokenSession
+            })
+            return
         }
+        //const checkPasswsord = await compare(password, psw.encrypt())
+        //const tokenSession = await tokenSign(user)
+        
     }catch(error){
-        console.error(error)
+        console.log(error);
+        res.status(400).json({
+            message:'Contraseña Inválida',
+            //token:tokenSession
+        })
     }
 }
 
@@ -65,22 +80,48 @@ const getElecciones = async(req, res) => {
 const createCandidato = async(req, res) => {
     const{nombreCandidato, municipioId, partidoId, puestoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, municipio_id, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4, $5)',[nombreCandidato, municipioId, partidoId, eleccion_id, puestoId]);
-    res.send('Candidato añadido');
+    try{
+        const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, municipio_id, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4, $5)',[nombreCandidato, municipioId, partidoId, eleccion_id, puestoId]);
+        res.status(200).json({
+            message:'Candidato añadido',
+        })
+    }catch(error){
+        res.status(400).json({
+            message:'Conflicto de nombre o partido/puesto repetido',
+        })
+    }
 };
 
 const createCandidato2 = async(req, res) => {
     const{nombreCandidato, partidoId, puestoId, estadoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id, estado_id) VALUES ($1, $2, $3, $4,$5)',[nombreCandidato, partidoId, eleccion_id, puestoId,estadoId]);
-    res.send('Candidato añadido');
+    try{
+        const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id, estado_id) VALUES ($1, $2, $3, $4,$5)',[nombreCandidato, partidoId, eleccion_id, puestoId,estadoId]);
+        res.status(200).json({
+            message:'Candidato añadido',
+        })
+        return
+    }catch(error){
+        res.status(400).json({
+            message:'Conflicto de nombre o partido/puesto repetido',
+        })
+    }
 };
 
 const createCandidato3 = async(req, res) => {
     const{nombreCandidato, partidoId, puestoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4)',[nombreCandidato, partidoId, eleccion_id, puestoId]);
-    res.send('Candidato añadido');
+    try{
+        const response = await pool.query('INSERT INTO urna.candidato (candidato_nombre, partido_id, eleccion_id, puesto_id ) VALUES ($1, $2, $3, $4)',[nombreCandidato, partidoId, eleccion_id, puestoId]);
+        res.status(200).json({
+            message:'Candidato añadido',
+        })
+        return
+    }catch(error){
+        res.status(400).json({
+            message:'Conflicto de nombre o partido/puesto repetido',
+        })
+    }
 };
  
 const createEleccion = async(req, res) => {
@@ -121,7 +162,7 @@ const getBoleta = async(req, res) => {
 const getBoletaGober = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const {estado_id} = state.estado[0]
-    const response = await pool.query('SELECT candidato_id, candidato_nombre, partido_id, puesto_id FROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2 and estado_id =$3',[2,eleccion_id,estado_id])
+    const response = await pool.query('SELECT candidato_id, candidato_nombre, partido_id, puesto_id, estado_idFROM urna.candidato WHERE puesto_id = $1 AND eleccion_id = $2 and estado_id =$3',[2,eleccion_id,estado_id])
     res.send(response.rows);
 }
 const getBoletaPresRep = async(req, res) => {
@@ -130,15 +171,16 @@ const getBoletaPresRep = async(req, res) => {
     res.send(response.rows);
 }
 const postVote = async(req, res) => {
-    const{nombreCandidato, municipioId, puestoId, partidoId} = req.body;
+    const{nombreCandidato, municipioId, puestoId, partidoId, estadoId} = req.body;
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('INSERT INTO urna.votos (candidato_nombre, eleccion_id, municipio_id, puesto_id, partido_id) VALUES ($1, $2, $3, $4, $5)',[nombreCandidato, eleccion_id, municipioId, puestoId, partidoId]);
+    const response = await pool.query('INSERT INTO urna.votos (candidato_nombre, eleccion_id, municipio_id, puesto_id, partido_id, estado_id) VALUES ($1, $2, $3, $4, $5, $6)',[nombreCandidato, eleccion_id, municipioId, puestoId, partidoId,estadoId]);
     res.send('Candidato añadido');
 };
 
 const getVotos = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const{municipio_id} = state.municipio[0]
+    console.log(municipio_id)
     const response = await pool.query('SELECT b.partido_id, a.eleccion_id, a.candidato_nombre,COUNT(a.candidato_nombre) as can FROM urna.votos as a left join urna.candidato as b on a.candidato_nombre = b.candidato_nombre WHERE a.eleccion_id = $1 AND a.puesto_id = 1 AND a.municipio_id = $2 GROUP BY a.candidato_nombre, b.partido_id, a.eleccion_id ',[eleccion_id,municipio_id])
     res.send(response.rows);
 }

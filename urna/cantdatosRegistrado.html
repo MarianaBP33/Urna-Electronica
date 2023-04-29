@@ -6,28 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urna Electrónica</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-  <style>
+	<style>
 		h1{
 			text-align: center;
+            font-size: 30px;
 		}
+        h2 {
+            font-size: 20px;
+        }
 		.center {
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
+        .center2{
+            display:flex; 
+            flex-direction:column; 
+            justify-content: center; 
+            align-items: center;
+        }
 	</style>
 </head>
-<script type="text/javascript">
-	function ir(){
-		contra = 1234
-		if(document.form.psw.value == contra){
-			window.location = "Resultados.html";
-		}else{
-			alert("Contraseña Incorrecta");
-		}
-	}
-</script>
-
 <body>
 	<!--Nav-->
 <nav class="navbar navbar-dark navbar-expand-lg bg-dark shadow small mb-3">
@@ -45,24 +44,11 @@
 		</div>
 	</div>
 </div>
-<div class="row justify-content-center mt-5">
-	<div class="col-md-5 vertical-align-middle">
-		<div class="card shadow-sm borders-0 mb-3">
-			<div class="card-header text-center">CERRAR</div>
-			<form name="form" role="entrar" class="d-flex justify-content-center">
-				<div class="hstack gap-3 me-3">
-					<input class="form-control form-control-sm me-auto mb-3 mt-3" name="psw" type="password" placeholder="Ingresa la clave..." aria-label="Ingresa la clave..." required>
-					<input class="btn btn-sm btn-secondary" onclick="ir()" type="button" value="Entrar">
-					
-				</div>
-				<div class="vr"></div>
-			</form>
-		</div>
-	</div>
-</div>
-
-
+    <h2 style="text-align: center; margin-top: 10px;">¡CANDIDATOS REGISTRADOS!</h2>
+    <h3 style="text-align: center;  margin-top: 40px;">Su información de candidatos se registró correctamente.</h3><br>
+    <div class="center">
+        <button onclick="location.href='opciones1.html'" type="submit" > OK</button>
+    </div>
+    
 </body>
-
 </html>
-
