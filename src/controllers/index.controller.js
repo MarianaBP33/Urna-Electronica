@@ -5,7 +5,7 @@ var bcrypt = require('bcryptjs');
 
 
 const pool = new Pool({
-    host: 'localhost',
+    host: '159.89.189.44',
     user: 'postgres',
     password: 'root',
     database: 'postgres',
