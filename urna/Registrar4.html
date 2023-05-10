@@ -101,7 +101,7 @@
             });  
     
     }
-    const createCandidato = async() => {
+    const createCandidato = async(res) => {
         var selectPartido = document.getElementById('partido');
         var partidoValue = selectPartido.options[selectPartido.selectedIndex].value;
         
@@ -112,32 +112,27 @@
             },
             body: JSON.stringify({
                 nombreCandidato:document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
-                puestoId: 1,
+                puestoId: 3,
                 partidoId: partidoValue,
             })
             
 		})
         if(status === 200){
-            const res = await axios.post(baseurl + '/candidato3', {
-            nombreCandidato: document.getElementById('nombreCandidato').value +' '+document.getElementById('apellidoCandidato').value,
-            partidoId: partidoValue,
-            eleccionId: 2,
-            puestoId: 3
-            });
+            let text;
+            if (confirm("¿Quiere Registrar otro Candidato a Presidente?") == true) {
+                text = "You pressed OK!";
+                document.getElementById("partido").value = null
+                document.getElementById('nombreCandidato').value = null
+                document.getElementById('apellidoCandidato').value = null
+
+            } else {
+                window.location='cantdatosRegistrado.html'
+            }
         }
         if(status == 400){
             alert("Conflicto de nombre o partido/puesto repetido")
         }
-        let text;
-        if (confirm("¿Quiere Registrar otro Candidato a Presidente?") == true) {
-            text = "You pressed OK!";
-            document.getElementById("partido").value = null
-            document.getElementById('nombreCandidato').value = null
-            document.getElementById('apellidoCandidato').value = null
-
-        } else {
-            window.location='cantdatosRegistrado.html'
-        }
+        
     }
     document.onclick = function() {
         if(document.getElementById('partido').value != '' && document.getElementById('nombreCandidato').value != '' && document.getElementById('apellidoCandidato').value !=''){

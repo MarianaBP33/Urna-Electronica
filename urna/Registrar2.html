@@ -145,33 +145,32 @@
                     nombreCandidato:document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
                     puestoId: 1,
                     partidoId: partidoValue,
+                    municipioId: municipioValue,
+                    partidoId: partidoValue,
+                    estadoId: estadoValue,
                 })
-            
-		    })
+             
+		    }) 
             if(status === 200) {
-                const res = await axios.post(baseurl + '/candidato', {
-                nombreCandidato: document.getElementById('nombreCandidato').value + ' ' + document.getElementById('apellidoCandidato').value,
-                municipioId: municipioValue,
-                partidoId: partidoValue,
-                estoadoId: estadoValue,
-                eleccionId: 2,
-                puestoId: 1
-                });
+                let text;
+                if (confirm("¿Quiere Registrar otro Candidato a Presidente Municipal?") == true) {
+                    text = "You pressed OK!";
+                    document.getElementById("partido").value = null
+                    document.getElementById("municipios").value = null
+                    document.getElementById('nombreCandidato').value = null
+                    document.getElementById('apellidoCandidato').value = null
+                    document.getElementById('estados').value = null
+                } else {
+                    window.location = 'Registrar3.html'
+                }
             }
             if(status == 400){
                 alert("Conflicto de nombre o partido/puesto repetido")
-            }
-            let text;
-            if (confirm("¿Quiere Registrar otro Candidato a Presidente Municipal?") == true) {
-                text = "You pressed OK!";
                 document.getElementById("partido").value = null
                 document.getElementById("municipios").value = null
-                document.getElementById('nombreCandidato').value = null
-                document.getElementById('apellidoCandidato').value = null
                 document.getElementById('estados').value = null
-            } else {
-                window.location = 'Registrar3.html'
             }
+            
         }
             document.onclick = function() {
                 if(document.getElementById('estados').value != ''){

@@ -126,33 +126,27 @@
 				nombreCandidato:document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
                 puestoId: 2,
                 partidoId: partidoValue,
+                estadoId: estadoValue
 
 			})
-            
-		})
+        })
         if (status === 200) {
-            const res = await axios.post(baseurl + '/candidato2', {
-                nombreCandidato: document.getElementById('nombreCandidato').value+' '+document.getElementById('apellidoCandidato').value,
-                partidoId: partidoValue,
-                eleccionId: 2,
-                puestoId: 2,
-                estadoId: estadoValue
-            });
-           
+            let text;
+            if (confirm("¿Quiere Registrar otro Candidato a Gobernador?") == true) {
+                text = "You pressed OK!";
+                document.getElementById("partido").value = null
+                document.getElementById('nombreCandidato').value = null
+                document.getElementById('apellidoCandidato').value = null
+                document.getElementById('estado').value = null
+
+            } else {
+                window.location='Registrar4.html'
+            }
 		}
         if(status == 400) {
 			alert("Conflicto de nombre o partido/puesto repetido");
-        }
-        let text;
-        if (confirm("¿Quiere Registrar otro Candidato a Gobernador?") == true) {
-            text = "You pressed OK!";
             document.getElementById("partido").value = null
-            document.getElementById('nombreCandidato').value = null
-            document.getElementById('apellidoCandidato').value = null
             document.getElementById('estado').value = null
-
-        } else {
-            window.location='Registrar4.html'
         }
        
     }
