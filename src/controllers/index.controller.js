@@ -155,19 +155,19 @@ const getLocation = async(req, res) =>{
 const getBoleta = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const {municipio_id} = state.municipio[0]
-    const response = await pool.query('SELECT candidato_id, municipio_id, candidato_nombre, partido_id, puesto_id FROM candidato WHERE puesto_id = $1 AND eleccion_id = $2 AND municipio_id =$3',[1,eleccion_id, municipio_id])
+    const response = await pool.query('SELECT municipio_id, candidato_nombre, partido_id, puesto_id FROM candidato WHERE puesto_id = $1 AND eleccion_id = $2 AND municipio_id =$3',[1,eleccion_id, municipio_id])
     res.send(response.rows);
 }
 
 const getBoletaGober = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
     const {estado_id} = state.estado[0]
-    const response = await pool.query('SELECT candidato_id, candidato_nombre, partido_id, puesto_id, estado_idFROM candidato WHERE puesto_id = $1 AND eleccion_id = $2 and estado_id =$3',[2,eleccion_id,estado_id])
+    const response = await pool.query('SELECT candidato_nombre, partido_id, puesto_id, estado_id FROM candidato WHERE puesto_id = $1 AND eleccion_id = $2 and estado_id =$3',[2,eleccion_id,estado_id])
     res.send(response.rows);
 }
 const getBoletaPresRep = async(req, res) => {
     const {eleccion_id} = state.eleccion[0]
-    const response = await pool.query('SELECT candidato_id, candidato_nombre, partido_id, puesto_id FROM candidato WHERE puesto_id = $1 AND eleccion_id = $2',[3,eleccion_id])
+    const response = await pool.query('SELECT candidato_nombre, partido_id, puesto_id FROM candidato WHERE puesto_id = $1 AND eleccion_id = $2',[3,eleccion_id])
     res.send(response.rows);
 }
 const postVote = async(req, res) => {

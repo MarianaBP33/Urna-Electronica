@@ -126,7 +126,9 @@
                 document.getElementById('apellidoCandidato').value = null
 
             } else {
-                window.location='cantdatosRegistrado.html'
+                if (confirm("¿Seguro que quieres guardar los datos? Esta acción es irreversible") == true) {
+                    window.location='cantdatosRegistrado.html'
+                }
             }
         }
         if(status == 400){
